@@ -13,6 +13,7 @@ A free, open-source configurator for the small CH57x-based macro keyboards with 
 - Media and system keys, plus mouse click, scroll, move and drag
 - Three layers
 - LED lighting: always on, light on press and ripple effects, set per layer
+- Reads the keys, knobs and layout already on the pad as soon as you connect
 - Export and import setups as JSON
 - Layouts: 3 keys + 1 knob, 4, 5 and 6 keys, 6 keys + 1 or 2 knobs, 9 keys + 2 or 3 knobs, 12 keys + 2, 3 or 4 knobs, 15 keys + 3 knobs
 
@@ -47,7 +48,12 @@ python3 -m http.server 8765 --directory docs
 
 ## Protocol notes
 
-All configuration goes to the pad's vendor HID interface (usage page `0xFF00`) as output report `3`. The pads can't report their current settings.
+All configuration goes to the pad's vendor HID interface (usage page `0xFF00`) as output report `3`. On connect, the page reads the pad's current setup with the same requests as the Windows app's Read button (884x family):
+
+- `03 FB FB FB` replies `FB <keys> <knobs> <model>`, used to pick the layout.
+- `03 FA 0F 03 <layer>` (or `03 FA 19 00 <layer>` for model `0x0A`) replies once per key slot with `FA <key id> <layer> <type> 00×5 <payload>`.
+  - The payload has the same layout as in the bind message below.
+  - For media, byte 9 is a count: `01 <lo> <hi>`.
 
 **884x family**: reverse-engineered from `MINI_KEYBOARD.exe`:
 

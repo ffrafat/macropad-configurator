@@ -53,8 +53,8 @@
           "acceptedAnswer": { "@type": "Answer", "text": "CH57x-based macro pads with USB vendor ID 1189 or 514C and product IDs 8830–8833, 8840, 8842, 8850, 8851 and 8890. That covers the common 3-key + 1-knob, 6-key, 9-key, 12-key and 15-key pads with up to 4 knobs." } },
         { "@type": "Question", "name": "Do I need to install anything?",
           "acceptedAnswer": { "@type": "Answer", "text": "No. The page talks to the pad directly through WebHID. Nothing is downloaded, and your settings never leave your computer." } },
-        { "@type": "Question", "name": "Why can't the page show what my keys are currently set to?",
-          "acceptedAnswer": { "@type": "Answer", "text": "These pads accept new settings but don't report their current ones. So the drawing always starts blank and only shows what you set during this visit. Nothing is stored in the browser; to keep a setup, export it to a file and import it next time." } },
+        { "@type": "Question", "name": "Does it show what my keys are currently set to?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. As soon as you connect, the page reads every key and knob on all three layers from the pad and shows them on the drawing, and picks the matching layout. Reading isn't supported yet on pads with USB ID 1189:8890, so for those the drawing starts blank. Nothing is stored in the browser; use Export to keep a copy of a setup." } },
         { "@type": "Question", "name": "Does it work with the Bluetooth version?",
           "acceptedAnswer": { "@type": "Answer", "text": "Yes, but connect the pad with its USB cable while you change settings. The pad stores them in its own memory, so they keep working over Bluetooth afterwards." } },
         { "@type": "Question", "name": "Why doesn't it work in Safari, Firefox or on my phone?",
@@ -377,7 +377,7 @@
           <span class="eyebrow">Configurator</span>
           <h2 id="cfgTitle">Set up your macro pad</h2>
         </div>
-        <p>Plug the pad in with its USB cable, click <b>Connect</b>, then pick a key on the drawing and choose what it does. The pad can't report its current keys, so the drawing starts blank; use Export to keep a setup.</p>
+        <p>Plug the pad in with its USB cable, click <b>Connect</b>, and the drawing fills in with the keys already on your pad. Then pick a key and choose what it does.</p>
       </div>
 
       <div class="app">
@@ -558,7 +558,7 @@
         </div>
         <div class="card">
           <h3>Layouts you can choose</h3>
-          <p style="margin:0">3 keys + 1 knob · 4 keys · 5 keys · 6 keys · 6 keys + 1 knob · 6 keys + 2 knobs · 9 keys + 2 knobs · 9 keys + 3 knobs · 12 keys + 2, 3 or 4 knobs · 15 keys + 3 knobs. The pad doesn't report its layout, so pick the one that looks like yours.</p>
+          <p style="margin:0">3 keys + 1 knob · 4 keys · 5 keys · 6 keys · 6 keys + 1 knob · 6 keys + 2 knobs · 9 keys + 2 knobs · 9 keys + 3 knobs · 12 keys + 2, 3 or 4 knobs · 15 keys + 3 knobs. When you connect, the page picks the layout your pad reports; you can still change it by hand.</p>
         </div>
       </div>
     </div>
@@ -599,7 +599,7 @@ sudo udevadm control --reload-rules</pre>
         <details open><summary>Is there MINI_KEYBOARD software for Mac?</summary><p>The seller's MINI_KEYBOARD.exe only runs on Windows. This configurator does the same job in Chrome, Edge, Brave or Opera on macOS (Intel and Apple Silicon), as well as Windows, Linux and ChromeOS.</p></details>
         <details><summary>Which macro keyboards are supported?</summary><p>CH57x-based macro pads with USB vendor ID 1189 or 514C and product IDs 8830–8833, 8840, 8842, 8850, 8851 and 8890. That covers the common 3-key + 1-knob, 6-key, 9-key, 12-key and 15-key pads with up to 4 knobs.</p></details>
         <details><summary>Do I need to install anything?</summary><p>No. The page talks to the pad directly through WebHID. Nothing is downloaded, and your settings never leave your computer.</p></details>
-        <details><summary>Why can't the page show what my keys are currently set to?</summary><p>These pads accept new settings but don't report their current ones. So the drawing always starts blank and only shows what you set during this visit. Nothing is stored in the browser; to keep a setup, export it to a file and import it next time.</p></details>
+        <details><summary>Does it show what my keys are currently set to?</summary><p>Yes. As soon as you connect, the page reads every key and knob on all three layers from the pad and shows them on the drawing, and picks the matching layout. Reading isn't supported yet on pads with USB ID 1189:8890, so for those the drawing starts blank. Nothing is stored in the browser; use Export to keep a copy of a setup.</p></details>
         <details><summary>Does it work with the Bluetooth version?</summary><p>Yes, but connect the pad with its USB cable while you change settings. The pad stores them in its own memory, so they keep working over Bluetooth afterwards.</p></details>
         <details><summary>Why doesn't it work in Safari, Firefox or on my phone?</summary><p>Those browsers don't support WebHID, the technology that lets a web page talk to USB devices. Use Chrome, Edge, Brave or Opera on a computer.</p></details>
         <details><summary>Is this the official software?</summary><p>No. It is an independent, free tool that speaks the same USB protocol as the Windows app. It is not affiliated with any macro keyboard maker or seller.</p></details>
@@ -884,8 +884,8 @@ let curLayer = 0, selected = null, tab = "key";
 let device = null, family = "884x", outReport = { id: 3, size: 64 };
 const knobRot = {};
 
-// The setup is deliberately not stored: every visit starts blank, because the pad can't report
-// its real settings and a remembered setup would look like it came from the pad. Use Export/Import.
+// The setup is deliberately not stored in the browser: on connect it is read from the pad itself,
+// so a remembered setup could disagree with what's really on the pad. Use Export/Import to keep one.
 function loadState() {
   try { localStorage.removeItem(STORE_KEY); } catch {} // clear setups saved by earlier versions
   return defaultState();
@@ -901,8 +901,9 @@ const curAct = () => selected && layerData().keys[slotKey(selected)];
 function describe(act) {
   if (!act) return "";
   if (act.type === "keys") {
+    const names = /Mac|iPhone|iPad/.test(navigator.platform) ? ["Ctrl", "Shift", "Opt", "Cmd"] : MOD_NAMES;
     return cleanSeq(act).map(s => {
-      const mods = MOD_NAMES.filter((_, i) => s.mods & (1 << i));
+      const mods = names.filter((_, i) => s.mods & (1 << i));
       return [...mods, s.code ? KEY_BY_CODE.get(s.code) || `#${s.code}` : null].filter(Boolean).join("+");
     }).join(", ");
   }
@@ -1111,15 +1112,109 @@ function configScore(d) {
   return s;
 }
 
+// ---- Reading the pad's current setup (884x family) ----
+// Same requests as the Windows app's "Read" button:
+//   03 FB FB FB          → reply FB <keys> <knobs> <model>
+//   03 FA 0F 03 <layer>  → one reply per key slot: FA <key id> <layer> <type> 00×5 <payload…>
+//   (model 0x0A uses 03 FA 19 00 <layer>)
+let reportWaiters = [];
+function onInputReport(e) {
+  const data = new Uint8Array(e.data.buffer, e.data.byteOffset, e.data.byteLength);
+  if (reportWaiters.length) reportWaiters.forEach(w => w(data));
+  else log(`← report ${e.reportId}: ${hexBytes(data.slice(0, 16))}`);
+}
+function collect(match, { first = 800, quiet = 250, max = 64 } = {}) {
+  return new Promise(resolve => {
+    const got = [];
+    let timer;
+    const done = () => { reportWaiters = reportWaiters.filter(f => f !== waiter); resolve(got); };
+    const waiter = m => {
+      if (!match(m)) return;
+      got.push(m);
+      clearTimeout(timer);
+      timer = setTimeout(done, got.length >= max ? 0 : quiet);
+    };
+    reportWaiters.push(waiter);
+    timer = setTimeout(done, first);
+  });
+}
+async function sendRaw(m) {
+  const data = new Uint8Array(outReport.size);
+  if (outReport.id === 0) data.set(m.slice(0, outReport.size)); else data.set(m.slice(1, outReport.size + 1));
+  await device.sendReport(outReport.id, data);
+}
+function slotFromWireId(id, p) {
+  if (id >= 1 && id <= 15) {
+    if (id <= p.buttons) return { kind: "button", index: id - 1 };
+    if (p.knobs === 4 && id >= 13) return { kind: "knob", index: 3, action: id - 13 };
+    return null;
+  }
+  if (id >= 16 && id <= 24) {
+    const k = Math.floor((id - 16) / 3);
+    return k < p.knobs ? { kind: "knob", index: k, action: (id - 16) % 3 } : null;
+  }
+  return null;
+}
+const signed8 = v => v > 127 ? v - 256 : v;
+function decodeBinding(m) {
+  const type = m[3], d = m.slice(9);
+  if (type === 1) {
+    const n = Math.max(1, Math.min(18, d[0]));
+    const seq = [];
+    for (let i = 0; i < n; i++) seq.push({ mods: d[1 + 2 * i], code: d[2 + 2 * i] });
+    const clean = seq.filter(s => s.code || s.mods);
+    return clean.length ? { type: "keys", seq: clean, delay: 0 } : null;
+  }
+  if (type === 2) {
+    const code = d[1] | (d[2] << 8);
+    return code ? { type: "media", code } : null;
+  }
+  if (type === 3) {
+    const mod = d[1], buttons = d[2], dx = signed8(d[3]), dy = signed8(d[4]), wheel = signed8(d[5]);
+    const kind = wheel ? "wheel" : (dx || dy) ? (buttons ? "drag" : "move") : "click";
+    return { type: "mouse", kind, buttons, delta: wheel || 1, dx, dy, mod };
+  }
+  return null;
+}
+async function readPad() {
+  if (family !== "884x") { log("This pad can't report its current keys; the drawing starts blank."); return; }
+  log("Reading the pad's current setup…");
+  const identReply = collect(m => m[0] === 0xFB, { max: 1 });
+  await sendRaw([0x03, 0xFB, 0xFB, 0xFB]);
+  const [ident] = await identReply;
+  if (!ident) { log("The pad didn't answer the read request; the drawing starts blank.", "err"); return; }
+  const keys = ident[1], knobs = ident[2], model = ident[3];
+  const match = PRESETS.find(p => p.buttons === keys && p.knobs === knobs);
+  if (match) state.preset = match.id;
+  const p = preset();
+  let total = 0;
+  for (let L = 1; L <= LAYERS; L++) {
+    const replies = collect(m => m[0] === 0xFA && m[2] === L, { max: 25 });
+    await sendRaw(model === 0x0A ? [0x03, 0xFA, 0x19, 0x00, L] : [0x03, 0xFA, 0x0F, 0x03, L]);
+    const layerKeys = {};
+    for (const m of await replies) {
+      const slot = slotFromWireId(m[1], p);
+      const act = slot && decodeBinding(m);
+      if (act) layerKeys[slotKey(slot)] = act;
+    }
+    state.layers[L - 1].keys = layerKeys;
+    total += Object.keys(layerKeys).length;
+  }
+  selected = null;
+  log(`✓ Read ${total} bindings across ${LAYERS} layers (pad reports ${keys} key${keys === 1 ? "" : "s"}, ${knobs} knob${knobs === 1 ? "" : "s"})`, "ok");
+}
+
 async function useDevice(d) {
   if (!d.opened) await d.open();
   device = d;
   family = familyFor(d.productId);
   outReport = findOutReport(d);
-  d.oninputreport = e => log(`← report ${e.reportId}: ${hexBytes(new Uint8Array(e.data.buffer).slice(0, 16))}`);
+  d.oninputreport = onInputReport;
   const known = KNOWN_PIDS.includes(d.productId);
   setConn(true, d.productName?.trim() || "Macro keyboard", `${hex4(d.vendorId)}:${hex4(d.productId)} · ${family} protocol${known ? "" : " · untested"}`);
   log(`Connected ${hex4(d.vendorId)}:${hex4(d.productId)} (${family}), report ${outReport.id}, ${outReport.size} bytes`, "ok");
+  render();
+  try { await readPad(); } catch (e) { log("Couldn't read the pad's setup: " + e.message, "err"); }
   if (family === "8890" && preset().buttons > 12) log("This pad family supports up to 12 keys; keys 13+ will be skipped.", "err");
   render();
 }
