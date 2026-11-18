@@ -1,0 +1,1288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mini Macro Keyboard Software for Mac, Windows &amp; Linux</title>
+<meta name="description" content="Free in-browser software for mini macro keyboards with knobs (the MINI_KEYBOARD.exe pads). Remap keys, knobs, macros, layers and RGB on Mac, Windows and Linux.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#f6f6f3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0c0e" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://ffrafat.github.io/macropad-configurator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Macropad Configurator">
+<meta property="og:title" content="Mini Macro Keyboard Software for Mac, Windows & Linux">
+<meta property="og:description" content="Set up your AliExpress / Amazon macro pad in the browser: keys, knobs, shortcuts, media keys, layers and lighting. Free, nothing to install.">
+<meta property="og:url" content="https://ffrafat.github.io/macropad-configurator/">
+<meta property="og:image" content="https://ffrafat.github.io/macropad-configurator/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Macropad Configurator: a 12-key, 2-knob macro keyboard being set up in the browser">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mini Macro Keyboard Software for Mac, Windows & Linux">
+<meta name="twitter:description" content="Free in-browser configurator for mini macro keyboards with knobs. Keys, knobs, layers and lighting – no install.">
+<meta name="twitter:image" content="https://ffrafat.github.io/macropad-configurator/assets/og.jpg">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="manifest" href="site.webmanifest">
+<script>try { const t = localStorage.getItem("mpc-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Macropad Configurator",
+      "alternateName": ["MINI_KEYBOARD software for Mac", "Mini macro keyboard driver"],
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "macOS, Windows, Linux, ChromeOS",
+      "browserRequirements": "Requires WebHID: Google Chrome, Microsoft Edge, Brave or Opera on a desktop computer",
+      "url": "https://ffrafat.github.io/macropad-configurator/",
+      "image": "https://ffrafat.github.io/macropad-configurator/assets/og.jpg",
+      "description": "Free, unofficial in-browser configuration software for CH57x-based mini macro keyboards (USB IDs 1189:88xx and 514C:88xx) with 3 to 15 keys and up to 4 knobs. Remap keys and knobs, create shortcuts and macros, assign media and mouse actions, use three layers and set the lighting without installing anything.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "isAccessibleForFree": true,
+      "featureList": ["Remap every key and knob", "Keyboard shortcuts and macros up to 18 keys", "Media, system and mouse actions", "Three layers", "LED lighting modes", "Export and import settings"]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is there MINI_KEYBOARD software for Mac?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The seller's MINI_KEYBOARD.exe only runs on Windows. This configurator does the same job in Chrome, Edge, Brave or Opera on macOS (Intel and Apple Silicon), as well as Windows, Linux and ChromeOS." } },
+        { "@type": "Question", "name": "Which macro keyboards are supported?",
+          "acceptedAnswer": { "@type": "Answer", "text": "CH57x-based macro pads with USB vendor ID 1189 or 514C and product IDs 8830–8833, 8840, 8842, 8850, 8851 and 8890. That covers the common 3-key + 1-knob, 6-key, 9-key, 12-key and 15-key pads with up to 4 knobs." } },
+        { "@type": "Question", "name": "Do I need to install anything?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. The page talks to the pad directly through WebHID. Nothing is downloaded, and your settings never leave your computer." } },
+        { "@type": "Question", "name": "Why can't the page show what my keys are currently set to?",
+          "acceptedAnswer": { "@type": "Answer", "text": "These pads accept new settings but don't report their current ones. The page remembers what you set in this browser, and you can export your setup to a file and load it on another computer." } },
+        { "@type": "Question", "name": "Does it work with the Bluetooth version?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, but connect the pad with its USB cable while you change settings. The pad stores them in its own memory, so they keep working over Bluetooth afterwards." } },
+        { "@type": "Question", "name": "Why doesn't it work in Safari, Firefox or on my phone?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Those browsers don't support WebHID, the technology that lets a web page talk to USB devices. Use Chrome, Edge, Brave or Opera on a computer." } },
+        { "@type": "Question", "name": "Is this the official software?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. It is an independent, free tool that speaks the same USB protocol as the Windows app. It is not affiliated with any macro keyboard maker or seller." } }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root {
+    --bg: #f6f6f3; --surface: #ffffff; --surface-2: #fafaf8; --sunk: #f0f0ec;
+    --ink: #121316; --ink-2: #3a3d44; --muted: #6a6e77; --faint: #9a9da4;
+    --line: #e4e4df; --line-2: #d3d3cd;
+    --accent: #1f55e6; --accent-ink: #ffffff; --accent-soft: #e9efff;
+    --ok: #138a4a; --ok-soft: #e4f4ea; --warn: #a86400; --err: #c9302c;
+    --grid: rgba(18, 19, 22, .07); --stage-a: #fbfbf9; --stage-b: #eeeee9;
+    --primary: #121316; --primary-ink: #ffffff;
+    --shadow: 0 1px 2px rgba(16,17,20,.04), 0 8px 24px -12px rgba(16,17,20,.12);
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b0c0e; --surface: #131418; --surface-2: #16181c; --sunk: #0f1013;
+    --ink: #ececee; --ink-2: #c4c6cc; --muted: #8b8f98; --faint: #5f636b;
+    --line: #23252b; --line-2: #31343b;
+    --accent: #6b93ff; --accent-ink: #0b0c0e; --accent-soft: rgba(107,147,255,.13);
+    --ok: #45c47e; --ok-soft: rgba(69,196,126,.12); --warn: #e0a341; --err: #f07070;
+    --grid: rgba(255,255,255,.055); --stage-a: #17191d; --stage-b: #0e0f12;
+    --primary: #ececee; --primary-ink: #0b0c0e;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -12px rgba(0,0,0,.6);
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0c0e; --surface: #131418; --surface-2: #16181c; --sunk: #0f1013;
+      --ink: #ececee; --ink-2: #c4c6cc; --muted: #8b8f98; --faint: #5f636b;
+      --line: #23252b; --line-2: #31343b;
+      --accent: #6b93ff; --accent-ink: #0b0c0e; --accent-soft: rgba(107,147,255,.13);
+      --ok: #45c47e; --ok-soft: rgba(69,196,126,.12); --warn: #e0a341; --err: #f07070;
+      --grid: rgba(255,255,255,.055); --stage-a: #17191d; --stage-b: #0e0f12;
+      --primary: #ececee; --primary-ink: #0b0c0e;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -12px rgba(0,0,0,.6);
+      color-scheme: dark;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  @media (max-width: 640px) { .wrap { padding: 0 16px; } }
+  .mono { font-family: var(--mono); }
+  .eyebrow { font: 600 11.5px/1 var(--mono); letter-spacing: .09em; text-transform: uppercase; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
+  .eyebrow::before { content: ""; width: 7px; height: 7px; background: var(--accent); border-radius: 1.5px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .hidden { display: none !important; }
+
+  /* ---------- Nav ---------- */
+  .nav { position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: blur(12px) saturate(140%); border-bottom: 1px solid var(--line); }
+  .nav .wrap { display: flex; align-items: center; height: 58px; gap: 28px; }
+  .logo { display: flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 650; letter-spacing: -.015em; font-size: 15px; }
+  .logo:hover { text-decoration: none; }
+  .logo svg { flex: none; }
+  .nav .links { display: flex; gap: 22px; font-size: 14px; margin-left: auto; }
+  .nav .links a { color: var(--muted); }
+  .nav .links a:hover { color: var(--ink); text-decoration: none; }
+  .nav .tools { display: flex; gap: 6px; }
+  .icon-btn { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--muted); cursor: pointer; }
+  .icon-btn:hover { color: var(--ink); border-color: var(--line-2); text-decoration: none; }
+  @media (max-width: 820px) { .nav .links { display: none; } .nav .tools { margin-left: auto; } }
+
+  /* ---------- Buttons & inputs ---------- */
+  .btn { font: 550 14px/1 var(--sans); display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); cursor: pointer; white-space: nowrap; transition: background .12s, border-color .12s, opacity .12s; }
+  .btn:hover:not(:disabled) { border-color: var(--faint); text-decoration: none; }
+  .btn.primary { background: var(--primary); border-color: var(--primary); color: var(--primary-ink); }
+  .btn.primary:hover:not(:disabled) { opacity: .88; }
+  .btn.accent { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.accent:hover:not(:disabled) { opacity: .9; }
+  .btn.lg { height: 44px; padding: 0 20px; font-size: 15px; border-radius: 10px; }
+  .btn.sm { height: 30px; padding: 0 10px; font-size: 13px; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+  .btn svg { flex: none; }
+  select, input[type=number] { font: 14px var(--sans); height: 34px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); }
+  select:focus-visible, input:focus-visible, .btn:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  input[type=number] { width: 92px; font-family: var(--mono); }
+  label.f { display: grid; gap: 6px; font-size: 12.5px; color: var(--muted); }
+  .seg { display: inline-flex; padding: 3px; gap: 2px; background: var(--sunk); border: 1px solid var(--line); border-radius: 9px; }
+  .seg button { font: 550 13px/1 var(--sans); height: 28px; padding: 0 11px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; }
+  .seg button:hover { color: var(--ink); }
+  .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 0 0 1px var(--line); }
+  .seg.full { display: flex; }
+  .seg.full button { flex: 1; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 64px 0 56px; }
+  .hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 56px; align-items: center; }
+  .hero h1 { font-size: clamp(34px, 4.6vw, 54px); line-height: 1.04; letter-spacing: -.035em; margin: 18px 0 18px; font-weight: 680; }
+  .hero h1 em { font-style: normal; color: var(--muted); }
+  .hero .lede { font-size: 17.5px; color: var(--ink-2); max-width: 34em; margin: 0 0 28px; }
+  .hero .cta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--line); font: 12.5px var(--mono); color: var(--muted); }
+  .facts span { display: inline-flex; align-items: center; gap: 7px; }
+  .facts span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--ok); }
+  .figure { position: relative; margin: 0; border: 1px solid var(--line); border-radius: 14px; background: radial-gradient(90% 80% at 50% 40%, var(--stage-a), var(--stage-b)); padding: 44px 24px 16px; overflow: hidden; box-shadow: var(--shadow); }
+  .figure::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 24px 24px; background-position: -1px -1px; mask-image: radial-gradient(80% 80% at 50% 50%, #000 40%, transparent 100%); }
+  .figure .pad-host { position: relative; display: flex; justify-content: center; }
+  .figure figcaption { position: relative; margin-top: 32px; display: flex; flex-wrap: wrap; gap: 4px 16px; justify-content: space-between; font: 11px var(--mono); color: var(--faint); letter-spacing: .04em; text-transform: uppercase; }
+  .figure .tick { position: absolute; width: 12px; height: 12px; border-color: var(--line-2); border-style: solid; }
+  .tick.tl { top: 12px; left: 12px; border-width: 1px 0 0 1px; } .tick.tr { top: 12px; right: 12px; border-width: 1px 1px 0 0; }
+  .tick.bl { bottom: 12px; left: 12px; border-width: 0 0 1px 1px; } .tick.br { bottom: 12px; right: 12px; border-width: 0 1px 1px 0; }
+  @media (max-width: 640px) { .figure { padding: 32px 12px 14px; } }
+  @media (max-width: 920px) { .hero { padding: 40px 0 36px; } .hero .wrap { grid-template-columns: minmax(0, 1fr); gap: 36px; } }
+
+  /* ---------- Sections ---------- */
+  section.block { padding: 72px 0; border-top: 1px solid var(--line); }
+  .head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+  .head h2 { font-size: clamp(26px, 3vw, 34px); letter-spacing: -.028em; line-height: 1.12; margin: 12px 0 0; font-weight: 660; }
+  .head p { color: var(--muted); margin: 0; max-width: 40em; }
+  @media (max-width: 640px) { section.block { padding: 52px 0; } }
+
+  /* ---------- Configurator ---------- */
+  #configurator { padding-top: 40px; border-top: 0; }
+  .app { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); overflow: hidden; }
+  .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 12px 14px; border-bottom: 1px solid var(--line); background: var(--surface-2); }
+  .toolbar .grow { flex: 1; }
+  .conn { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .conn .led { width: 9px; height: 9px; border-radius: 50%; background: var(--faint); box-shadow: 0 0 0 3px color-mix(in srgb, var(--faint) 18%, transparent); flex: none; }
+  .conn.on .led { background: var(--ok); box-shadow: 0 0 0 3px var(--ok-soft); }
+  .conn b { font-size: 13.5px; font-weight: 600; display: block; line-height: 1.2; }
+  .conn small { display: block; font: 11.5px var(--mono); color: var(--muted); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tb-group { display: flex; align-items: center; gap: 8px; }
+  .tb-label { font: 11px var(--mono); text-transform: uppercase; letter-spacing: .07em; color: var(--faint); }
+  .app-body { display: grid; grid-template-columns: minmax(0, 1fr) 360px; }
+  @media (max-width: 980px) { .app-body { grid-template-columns: minmax(0, 1fr); } }
+  .stage-col { min-width: 0; display: flex; flex-direction: column; border-right: 1px solid var(--line); }
+  @media (max-width: 980px) { .stage-col { border-right: 0; border-bottom: 1px solid var(--line); } }
+  .stage { position: relative; flex: 1; min-height: 340px; display: flex; align-items: center; overflow-x: auto; padding: 40px 20px; background: radial-gradient(80% 90% at 50% 45%, var(--stage-a), var(--stage-b)); }
+  .stage::before { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(var(--grid) 1.2px, transparent 1.2px); background-size: 18px 18px; }
+  .stage .pad-host { position: relative; margin: 0 auto; }
+  .stage-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-top: 1px solid var(--line); }
+  .knobinfo { display: grid; gap: 3px; font: 12px var(--mono); color: var(--muted); }
+  .knobinfo b { color: var(--ink); font-weight: 600; }
+  .stage-foot .acts { display: flex; gap: 8px; margin-left: auto; }
+
+  .inspector { display: flex; flex-direction: column; min-width: 0; }
+  .insp-tabs { display: flex; border-bottom: 1px solid var(--line); }
+  .insp-tabs button { flex: 1; height: 44px; border: 0; background: none; font: 600 13px var(--sans); color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .insp-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+  .pane { padding: 18px; display: grid; gap: 16px; align-content: start; }
+  .pane-title { font: 600 11.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
+  .pane-title span:last-child { color: var(--accent); }
+  .empty { padding: 36px 18px; text-align: center; color: var(--muted); font-size: 14px; }
+  .empty svg { color: var(--faint); margin-bottom: 10px; }
+  .seq { display: grid; gap: 8px; }
+  .step { display: grid; gap: 8px; padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); }
+  .step-row { display: flex; gap: 6px; align-items: center; }
+  .step-row select { flex: 1; min-width: 0; }
+  .step .n { font: 11px var(--mono); color: var(--faint); width: 18px; flex: none; }
+  .chips { display: flex; gap: 4px; flex-wrap: wrap; }
+  .chip { font: 550 12px var(--sans); height: 26px; padding: 0 9px; border-radius: 6px; border: 1px solid var(--line-2); background: var(--surface); color: var(--muted); cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .chip.rec { border-color: var(--accent); color: var(--accent); }
+  .row { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; }
+  .note { font-size: 12.5px; color: var(--muted); margin: 0; }
+  .note.warn { color: var(--warn); }
+  .pane-foot { margin-top: auto; padding: 14px 18px; border-top: 1px solid var(--line); display: flex; gap: 8px; align-items: center; }
+  .pane-foot .btn { flex: 1; justify-content: center; }
+  .log { border-top: 1px solid var(--line); }
+  .log summary { cursor: pointer; padding: 11px 14px; font: 600 11.5px var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); list-style: none; display: flex; justify-content: space-between; }
+  .log summary::-webkit-details-marker { display: none; }
+  .log summary::after { content: "+"; }
+  .log[open] summary::after { content: "−"; }
+  #log { margin: 0; padding: 0 14px 14px; max-height: 220px; overflow: auto; font: 12px/1.6 var(--mono); color: var(--muted); white-space: pre-wrap; }
+  #log .ok { color: var(--ok); } #log .err { color: var(--err); }
+  .banner { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--warn) 10%, var(--surface)); color: var(--ink-2); font-size: 13.5px; }
+  .banner b { color: var(--warn); }
+
+  /* ---------- Pad drawing ---------- */
+  .device { position: relative; flex: none; isolation: isolate; }
+  .device svg.body { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; z-index: 0; }
+  .glow { opacity: 0; transition: opacity .35s ease-out; }
+  .device[data-led=backlight] .glow { opacity: .9; }
+  .glow.flash { opacity: 1; transition: none; }
+  .cap { position: absolute; z-index: 1; width: calc(var(--u) * .9); height: calc(var(--u) * .9); padding: 0; border: 0; cursor: pointer; border-radius: calc(var(--u) * .1);
+    background: linear-gradient(180deg, #eceef1 0%, #d3d6dc 45%, #b3b7bf 100%);
+    box-shadow: 0 calc(var(--u) * .045) calc(var(--u) * .07) rgba(0,0,0,.6), 0 calc(var(--u) * .012) 0 rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.85), inset 0 calc(var(--u) * -.04) calc(var(--u) * .05) rgba(0,0,0,.16), inset calc(var(--u) * .03) 0 calc(var(--u) * .04) rgba(255,255,255,.25), inset calc(var(--u) * -.03) 0 calc(var(--u) * .04) rgba(0,0,0,.08);
+    transition: transform .09s ease, box-shadow .09s ease; }
+  .device.live .cap:hover { transform: translateY(-1px); }
+  .device.live .cap:active { transform: translateY(calc(var(--u) * .025)); box-shadow: 0 calc(var(--u) * .015) calc(var(--u) * .03) rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.85), inset 0 calc(var(--u) * -.03) calc(var(--u) * .04) rgba(0,0,0,.16); }
+  .device:not(.live) .cap, .device:not(.live) .knob { cursor: default; pointer-events: none; }
+  .cap .top { position: absolute; left: 12%; right: 12%; top: 6%; bottom: 20%; border-radius: calc(var(--u) * .075); background: radial-gradient(130% 100% at 50% 15%, #fdfdfe 0%, #f0f1f4 55%, #e2e4e9 100%); box-shadow: inset 0 calc(var(--u) * .012) calc(var(--u) * .035) rgba(0,0,0,.13), 0 0 0 .5px rgba(0,0,0,.06), 0 calc(var(--u) * .01) 0 rgba(255,255,255,.6); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .cap .lg { font: 650 max(7.5px, calc(var(--u) * .125))/1.12 var(--sans); color: #262a31; text-align: center; padding: 0 4%; overflow-wrap: break-word; letter-spacing: -.01em; }
+  .cap .num { position: absolute; left: 9%; top: 4%; font: 600 max(8px, calc(var(--u) * .085)) var(--mono); color: #959aa3; }
+  .cap.sel, .knob.sel { outline: calc(var(--u) * .03) solid var(--accent); outline-offset: calc(var(--u) * .035); }
+  .kw { position: absolute; z-index: 1; }
+  .knob { position: absolute; inset: 0; padding: 0; border: 0; border-radius: 50%; cursor: pointer; background: none; transition: transform .12s ease; }
+  .knob.pressed { transform: scale(.955); }
+  .knob .spin { position: absolute; inset: 0; border-radius: 50%; transform: rotate(var(--rot, 0deg)); transition: transform .45s cubic-bezier(.3, 1.5, .5, 1); }
+  .knob .ring { position: absolute; inset: 0; border-radius: 50%; background: repeating-conic-gradient(#565b63 0 2.5deg, #2a2d32 2.5deg 5deg); box-shadow: 0 calc(var(--u) * .07) calc(var(--u) * .12) rgba(0,0,0,.65), 0 0 0 1px rgba(0,0,0,.7), inset 0 0 0 1px rgba(255,255,255,.08); }
+  .knob .face { position: absolute; inset: 11%; border-radius: 50%; background: conic-gradient(from 15deg, #dfe2e6, #9a9fa7 12%, #f1f2f4 25%, #a2a7ae 38%, #dadde1 50%, #989da5 62%, #f1f2f4 75%, #a5aab1 88%, #dfe2e6); box-shadow: inset 0 0 0 1px rgba(255,255,255,.45), inset 0 calc(var(--u) * -.03) calc(var(--u) * .05) rgba(0,0,0,.28), 0 0 0 1px rgba(0,0,0,.35); }
+  .knob .mark { position: absolute; left: 50%; top: 15%; width: max(2px, calc(var(--u) * .035)); height: 17%; margin-left: max(-1px, calc(var(--u) * -.0175)); border-radius: 2px; background: #2a2e35; box-shadow: 0 1px 0 rgba(255,255,255,.5); }
+  .knob .shine { position: absolute; inset: 11%; border-radius: 50%; pointer-events: none; background: radial-gradient(circle at 34% 27%, rgba(255,255,255,.6), rgba(255,255,255,0) 42%), radial-gradient(circle at 70% 80%, rgba(0,0,0,.18), rgba(0,0,0,0) 50%); }
+  .kw .dot { position: absolute; width: max(4px, calc(var(--u) * .055)); height: max(4px, calc(var(--u) * .055)); border-radius: 50%; background: #0d0e10; box-shadow: inset 0 1px 1px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.08); transform: translate(-50%, -50%); }
+  .kw .dot.on { background: #46e08a; box-shadow: 0 0 calc(var(--u) * .08) #46e08a, inset 0 1px 0 rgba(255,255,255,.5); }
+
+  /* ---------- Content blocks ---------- */
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
+  .steps li { list-style: none; padding: 26px 24px; border-right: 1px solid var(--line); }
+  .steps li:last-child { border-right: 0; }
+  .steps .k { font: 600 12px var(--mono); color: var(--accent); }
+  .steps h3 { font-size: 17px; margin: 14px 0 6px; letter-spacing: -.01em; }
+  .steps p { margin: 0; color: var(--muted); font-size: 14.5px; }
+  .steps ol { margin: 0; padding: 0; display: contents; }
+  @media (max-width: 820px) { .steps { grid-template-columns: minmax(0, 1fr); } .steps li { border-right: 0; border-bottom: 1px solid var(--line); } .steps li:last-child { border-bottom: 0; } }
+
+  .features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .feature { background: var(--surface); padding: 24px; }
+  .feature svg { color: var(--ink); }
+  .feature h3 { font-size: 15.5px; margin: 14px 0 6px; letter-spacing: -.01em; }
+  .feature p { margin: 0; color: var(--muted); font-size: 14px; }
+  @media (max-width: 900px) { .features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .features { grid-template-columns: minmax(0, 1fr); } }
+
+  .table-wrap { border: 1px solid var(--line); border-radius: 14px; overflow-x: auto; background: var(--surface); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  th { font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); background: var(--surface-2); white-space: nowrap; }
+  td code, .code { font: 12.5px var(--mono); }
+  .tag { display: inline-flex; align-items: center; gap: 6px; font: 600 11.5px var(--mono); padding: 3px 8px; border-radius: 5px; white-space: nowrap; }
+  .tag.ok { color: var(--ok); background: var(--ok-soft); }
+  .tag.mid { color: var(--accent); background: var(--accent-soft); }
+  .tag.no { color: var(--muted); background: var(--sunk); }
+  .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; margin-top: 20px; }
+  @media (max-width: 860px) { .two { grid-template-columns: minmax(0, 1fr); } }
+  .card { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: 22px 24px; }
+  .card h3 { font-size: 16px; margin: 0 0 10px; letter-spacing: -.01em; }
+  .card p, .card li { color: var(--ink-2); font-size: 14.5px; }
+  .card ul { margin: 0; padding-left: 18px; }
+  pre.code { margin: 12px 0 0; padding: 14px; background: var(--sunk); border: 1px solid var(--line); border-radius: 10px; overflow-x: auto; font-size: 12.5px; line-height: 1.6; color: var(--ink-2); }
+
+  .faq { border-top: 1px solid var(--line); }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary { cursor: pointer; list-style: none; padding: 20px 40px 20px 0; position: relative; font-size: 16.5px; font-weight: 600; letter-spacing: -.01em; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: ""; position: absolute; right: 6px; top: 50%; width: 10px; height: 10px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: translateY(-70%) rotate(45deg); transition: transform .2s; }
+  .faq details[open] summary::after { transform: translateY(-30%) rotate(225deg); }
+  .faq details p { margin: 0 0 20px; color: var(--ink-2); max-width: 46em; }
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 48px; }
+  @media (max-width: 860px) { .faq-grid { grid-template-columns: minmax(0, 1fr); gap: 8px; } }
+
+  footer { border-top: 1px solid var(--line); padding: 36px 0 48px; color: var(--muted); font-size: 13.5px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; align-items: center; }
+  footer nav { display: flex; gap: 20px; flex-wrap: wrap; }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Macropad Configurator home">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x=".5" y=".5" width="25" height="25" rx="6" fill="var(--ink)"/><rect x="5" y="9" width="4.5" height="4.5" rx="1" fill="var(--bg)"/><rect x="5" y="15" width="4.5" height="4.5" rx="1" fill="var(--bg)"/><rect x="11" y="9" width="4.5" height="4.5" rx="1" fill="var(--bg)"/><rect x="11" y="15" width="4.5" height="4.5" rx="1" fill="var(--bg)"/><circle cx="19.5" cy="9.8" r="2.6" fill="var(--accent)"/></svg>
+      Macropad Configurator
+    </a>
+    <div class="links">
+      <a href="#configurator">Configurator</a>
+      <a href="#how">How it works</a>
+      <a href="#devices">Supported pads</a>
+      <a href="#compatibility">Compatibility</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="tools">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch light or dark theme" title="Theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg>
+      </button>
+      <a class="icon-btn" href="https://github.com/ffrafat/macropad-configurator" aria-label="Source code on GitHub" title="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Free web driver · No install</span>
+      <h1>Mini macro keyboard software <em>for Mac, Windows &amp; Linux</em></h1>
+      <p class="lede">Set up the small macro pads with keys and knobs sold on AliExpress and Amazon, the ones that come with <span class="mono">MINI_KEYBOARD.exe</span>, right here in your browser. Remap every key and knob, build shortcuts and macros, use three layers and set the lighting.</p>
+      <div class="cta">
+        <a class="btn primary lg" href="#configurator">Open the configurator</a>
+        <a class="btn lg" href="#devices">Check your model</a>
+      </div>
+      <div class="facts">
+        <span>Runs in Chrome &amp; Edge</span>
+        <span>macOS · Windows · Linux · ChromeOS</span>
+        <span>Settings stay on your computer</span>
+      </div>
+    </div>
+    <figure class="figure" aria-label="Illustration of a 12-key macro keyboard with two knobs">
+      <i class="tick tl"></i><i class="tick tr"></i><i class="tick bl"></i><i class="tick br"></i>
+      <div class="pad-host" id="heroPad"></div>
+      <figcaption><span>Fig. 1 — 12 keys + 2 knobs</span><span>Layer 1 · Backlight blue</span></figcaption>
+    </figure>
+  </div>
+</header>
+
+<main>
+  <section class="block" id="configurator" aria-labelledby="cfgTitle">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <span class="eyebrow">Configurator</span>
+          <h2 id="cfgTitle">Set up your macro pad</h2>
+        </div>
+        <p>Plug the pad in with its USB cable, click <b>Connect</b>, then pick a key on the drawing and choose what it does.</p>
+      </div>
+
+      <div class="app">
+        <div class="banner hidden" id="noHid" role="alert">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="flex:none;color:var(--warn);margin-top:1px"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+          <div><b>This browser can't connect to USB devices.</b> Open this page in Chrome, Edge, Brave or Opera on a computer. You can still plan your setup here and save it to a file.</div>
+        </div>
+        <div class="toolbar">
+          <div class="conn" id="conn">
+            <span class="led" aria-hidden="true"></span>
+            <div style="min-width:0"><b id="connTitle">Not connected</b><small id="connSub">Plug in the pad, then connect</small></div>
+          </div>
+          <button class="btn primary" id="connectBtn" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 2v6M15 2v6M6 8h12v4a6 6 0 0 1-12 0zM12 18v4"/></svg>
+            <span>Connect</span>
+          </button>
+          <div class="grow"></div>
+          <div class="tb-group"><span class="tb-label">Layer</span><div class="seg" id="layers" role="group" aria-label="Layer"></div></div>
+          <div class="tb-group"><label class="tb-label" for="preset">Layout</label><select id="preset"></select></div>
+          <div class="tb-group">
+            <button class="btn sm" id="importBtn" type="button">Import</button>
+            <button class="btn sm" id="exportBtn" type="button">Export</button>
+            <input type="file" id="importFile" accept="application/json,.json" class="hidden">
+          </div>
+        </div>
+
+        <div class="app-body">
+          <div class="stage-col">
+            <div class="stage" id="stage"><div class="pad-host" id="pad"></div></div>
+            <div class="stage-foot">
+              <div class="knobinfo" id="knobInfo"></div>
+              <div class="acts">
+                <button class="btn sm" id="writeLayer" type="button" disabled>Write layer</button>
+                <button class="btn sm" id="writeAll" type="button" disabled>Write all layers</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="inspector" aria-label="Settings">
+            <div class="insp-tabs" role="tablist">
+              <button role="tab" id="tabKey" aria-selected="true" type="button">Key</button>
+              <button role="tab" id="tabLight" aria-selected="false" type="button">Lighting</button>
+            </div>
+
+            <div id="paneKey" role="tabpanel" aria-labelledby="tabKey" style="display:flex;flex-direction:column;flex:1">
+              <div class="empty" id="keyEmpty">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12l3 3 5-6"/></svg>
+                <div>Select a key or knob on the pad<br>to choose what it does.</div>
+              </div>
+              <div class="pane hidden" id="keyPane">
+                <div class="pane-title"><span id="edTitle">Key</span><span id="edLayer">Layer 1</span></div>
+                <div class="seg full hidden" id="knobSeg" role="group" aria-label="Knob action"></div>
+                <div class="seg full" id="actType" role="group" aria-label="Action type">
+                  <button type="button" data-t="none">None</button>
+                  <button type="button" data-t="keys">Keys</button>
+                  <button type="button" data-t="media">Media</button>
+                  <button type="button" data-t="mouse">Mouse</button>
+                </div>
+
+                <div id="edNone" class="note">This key isn't set on this layer. Choose an action above.</div>
+
+                <div id="edKeys" class="hidden" style="display:grid;gap:10px">
+                  <div class="seq" id="seq"></div>
+                  <div class="row">
+                    <button class="btn sm" id="addStep" type="button">+ Add key</button>
+                    <span class="note" id="seqNote">Typed in order, up to 18 keys.</span>
+                  </div>
+                  <label class="f" id="delayField">Delay between keys (ms)
+                    <input type="number" id="delay" min="0" max="6000" step="10" value="0">
+                  </label>
+                </div>
+
+                <div id="edMedia" class="hidden">
+                  <label class="f">Media or system key<select id="media"></select></label>
+                </div>
+
+                <div id="edMouse" class="hidden" style="display:grid;gap:12px">
+                  <div class="seg full" id="mouseKind" role="group" aria-label="Mouse action">
+                    <button type="button" data-k="click">Click</button>
+                    <button type="button" data-k="wheel">Scroll</button>
+                    <button type="button" data-k="move">Move</button>
+                    <button type="button" data-k="drag">Drag</button>
+                  </div>
+                  <div class="chips" id="mButtons" role="group" aria-label="Mouse buttons">
+                    <button class="chip" type="button" data-b="1">Left</button>
+                    <button class="chip" type="button" data-b="2">Right</button>
+                    <button class="chip" type="button" data-b="4">Middle</button>
+                  </div>
+                  <label class="f" id="mWheelRow">Scroll amount (negative = down)<input type="number" id="mDelta" min="-127" max="127" value="1"></label>
+                  <div class="row" id="mMoveRow">
+                    <label class="f">Move X<input type="number" id="mDx" min="-127" max="127" value="0"></label>
+                    <label class="f">Move Y<input type="number" id="mDy" min="-127" max="127" value="0"></label>
+                  </div>
+                  <label class="f">While holding<select id="mMod"><option value="0">Nothing</option><option value="1">Ctrl</option><option value="2">Shift</option><option value="4">Alt</option></select></label>
+                </div>
+              </div>
+              <div class="pane-foot hidden" id="keyFoot">
+                <button class="btn accent" id="writeKey" type="button" disabled>Write this key to the pad</button>
+              </div>
+            </div>
+
+            <div id="paneLight" role="tabpanel" aria-labelledby="tabLight" style="display:none;flex-direction:column;flex:1">
+              <div class="pane">
+                <div class="pane-title"><span>Lighting</span><span id="ledScope">Layer 1</span></div>
+                <label class="f">Mode<select id="ledMode"></select></label>
+                <label class="f" id="ledColorField">Colour<select id="ledColor"></select></label>
+                <p class="note" id="ledNote">Pads without LEDs ignore this. The drawing previews the effect; click a key to see press effects.</p>
+              </div>
+              <div class="pane-foot"><button class="btn accent" id="writeLed" type="button" disabled>Apply lighting</button></div>
+            </div>
+          </aside>
+        </div>
+
+        <details class="log" id="logBox">
+          <summary>Device log</summary>
+          <pre id="log" aria-live="polite"></pre>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="how" aria-labelledby="howTitle">
+    <div class="wrap">
+      <div class="head">
+        <div><span class="eyebrow">How it works</span><h2 id="howTitle">Configure a macro keyboard on a Mac in three steps</h2></div>
+        <p>The pad stores everything in its own memory, so once it's set up it works on any computer without software.</p>
+      </div>
+      <ol class="steps">
+        <li><span class="k">01</span><h3>Plug in the pad</h3><p>Connect the macro keyboard with its USB cable, including Bluetooth models, which need the cable while you change settings.</p></li>
+        <li><span class="k">02</span><h3>Connect in your browser</h3><p>Open this page in Chrome, Edge, Brave or Opera, click Connect and pick the pad in the list.</p></li>
+        <li><span class="k">03</span><h3>Choose and write</h3><p>Click a key or knob, choose what it should do, and click Write. It works straight away.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" id="features" aria-labelledby="featTitle">
+    <div class="wrap">
+      <div class="head">
+        <div><span class="eyebrow">Features</span><h2 id="featTitle">Everything the Windows app does, on any computer</h2></div>
+      </div>
+      <div class="features">
+        <div class="feature"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M6 10h1M10 10h1M14 10h1M18 10h0M7 14h10"/></svg><h3>Shortcuts &amp; macros</h3><p>Any key or combination such as Ctrl+C or Cmd+Shift+4, or a sequence of up to 18 keys with an optional delay. Record it straight from your keyboard.</p></div>
+        <div class="feature"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v4"/><path d="M5 19.5l-1.5 1.5M19 19.5l1.5 1.5"/></svg><h3>Knobs</h3><p>Separate actions for turning left, turning right and pressing each knob. Ideal for volume, scrolling, zoom or brush size.</p></div>
+        <div class="feature"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><h3>Media &amp; system keys</h3><p>Volume, mute, play/pause, next and previous track, screen brightness, calculator, lock screen and browser keys.</p></div>
+        <div class="feature"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="6"/><path d="M12 6.5v4"/></svg><h3>Mouse actions</h3><p>Left, right or middle click, scroll up or down, move the pointer or drag, optionally while holding Ctrl, Shift or Alt.</p></div>
+        <div class="feature"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3 2.5 8 12 13l9.5-5z"/><path d="M2.5 12 12 17l9.5-5M2.5 16 12 21l9.5-5"/></svg><h3>Three layers</h3><p>Keep up to three complete setups, for example editing, video calls and gaming, and switch between them on the pad.</p></div>
+        <div class="feature"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/><circle cx="12" cy="12" r="4"/></svg><h3>Lighting</h3><p>Always-on colour, light on key press, or ripple effects on pads with RGB LEDs, set separately for each layer.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="devices" aria-labelledby="devTitle">
+    <div class="wrap">
+      <div class="head">
+        <div><span class="eyebrow">Supported pads</span><h2 id="devTitle">Supported mini macro keyboards</h2></div>
+        <p>These pads are sold under many brand names but share the same CH57x chip. The quickest way to check yours is its USB ID.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>USB ID</th><th>Typical layouts</th><th>Lighting</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><code>514C:8851</code></td><td>3 keys + 1 knob up to 15 keys + 3 knobs</td><td>RGB, per layer</td><td><span class="tag ok">Tested</span></td></tr>
+            <tr><td><code>1189:8840</code> <code>1189:8842</code> <code>1189:8850</code></td><td>6, 9, 12 and 15 keys with 1–4 knobs</td><td>RGB, per layer</td><td><span class="tag mid">Supported</span></td></tr>
+            <tr><td><code>1189:8890</code></td><td>3 keys + 1 knob, 6 keys, 4 keys</td><td>Basic modes</td><td><span class="tag mid">Supported</span></td></tr>
+            <tr><td><code>1189:8830</code>–<code>8833</code> <code>514C:88xx</code></td><td>Various</td><td>Varies</td><td><span class="tag no">Should work</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="two">
+        <div class="card">
+          <h3>Find your pad's USB ID</h3>
+          <ul>
+            <li><b>Mac:</b> Apple menu → About This Mac → More Info → System Report → USB. Look at Vendor ID and Product ID.</li>
+            <li><b>Windows:</b> Device Manager → Human Interface Devices → Properties → Details → Hardware Ids (<span class="mono">VID_1189&amp;PID_8890</span>).</li>
+            <li><b>Linux:</b> run <span class="mono">lsusb</span> and look for <span class="mono">1189:</span> or <span class="mono">514c:</span>.</li>
+            <li>Or just click <b>Connect</b> above: the ID shows next to the status light.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Layouts you can choose</h3>
+          <p style="margin:0">3 keys + 1 knob · 4 keys · 5 keys · 6 keys · 6 keys + 1 knob · 6 keys + 2 knobs · 9 keys + 2 knobs · 9 keys + 3 knobs · 12 keys + 2, 3 or 4 knobs · 15 keys + 3 knobs. The pad doesn't report its layout, so pick the one that looks like yours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="compatibility" aria-labelledby="compTitle">
+    <div class="wrap">
+      <div class="head">
+        <div><span class="eyebrow">Compatibility</span><h2 id="compTitle">Works on macOS, Windows, Linux and ChromeOS</h2></div>
+        <p>The page uses WebHID, a browser feature for talking to USB devices. It's available in Chromium-based browsers on computers.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>System</th><th>Chrome · Edge · Brave · Opera</th><th>Safari · Firefox</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>macOS (Intel &amp; Apple Silicon)</td><td><span class="tag ok">Works</span></td><td><span class="tag no">No WebHID</span></td><td>No drivers or permissions needed.</td></tr>
+            <tr><td>Windows 10 &amp; 11</td><td><span class="tag ok">Works</span></td><td><span class="tag no">No WebHID</span></td><td>Close MINI_KEYBOARD.exe first if it's running.</td></tr>
+            <tr><td>Linux</td><td><span class="tag ok">Works</span></td><td><span class="tag no">No WebHID</span></td><td>Needs a one-time udev rule (below).</td></tr>
+            <tr><td>ChromeOS</td><td><span class="tag ok">Works</span></td><td>—</td><td></td></tr>
+            <tr><td>Android &amp; iOS</td><td><span class="tag no">Not supported</span></td><td><span class="tag no">Not supported</span></td><td>Mobile browsers don't offer WebHID.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card" style="margin-top:20px">
+        <h3>Linux: allow your browser to reach the pad</h3>
+        <p style="margin:0">Run this once, then unplug and reconnect the pad:</p>
+<pre class="code">echo 'SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1189", TAG+="uaccess"
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="514c", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/70-macropad.rules
+sudo udevadm control --reload-rules</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq" aria-labelledby="faqTitle">
+    <div class="wrap faq-grid">
+      <div><span class="eyebrow">FAQ</span><h2 id="faqTitle" style="font-size:clamp(26px,3vw,34px);letter-spacing:-.028em;line-height:1.12;margin:12px 0 0;font-weight:660">Questions about macro keyboard software</h2></div>
+      <div class="faq">
+        <details open><summary>Is there MINI_KEYBOARD software for Mac?</summary><p>The seller's MINI_KEYBOARD.exe only runs on Windows. This configurator does the same job in Chrome, Edge, Brave or Opera on macOS (Intel and Apple Silicon), as well as Windows, Linux and ChromeOS.</p></details>
+        <details><summary>Which macro keyboards are supported?</summary><p>CH57x-based macro pads with USB vendor ID 1189 or 514C and product IDs 8830–8833, 8840, 8842, 8850, 8851 and 8890. That covers the common 3-key + 1-knob, 6-key, 9-key, 12-key and 15-key pads with up to 4 knobs.</p></details>
+        <details><summary>Do I need to install anything?</summary><p>No. The page talks to the pad directly through WebHID. Nothing is downloaded, and your settings never leave your computer.</p></details>
+        <details><summary>Why can't the page show what my keys are currently set to?</summary><p>These pads accept new settings but don't report their current ones. The page remembers what you set in this browser, and you can export your setup to a file and load it on another computer.</p></details>
+        <details><summary>Does it work with the Bluetooth version?</summary><p>Yes, but connect the pad with its USB cable while you change settings. The pad stores them in its own memory, so they keep working over Bluetooth afterwards.</p></details>
+        <details><summary>Why doesn't it work in Safari, Firefox or on my phone?</summary><p>Those browsers don't support WebHID, the technology that lets a web page talk to USB devices. Use Chrome, Edge, Brave or Opera on a computer.</p></details>
+        <details><summary>Is this the official software?</summary><p>No. It is an independent, free tool that speaks the same USB protocol as the Windows app. It is not affiliated with any macro keyboard maker or seller.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>Macropad Configurator · Free and open source · Not affiliated with any macro keyboard maker.</div>
+    <nav aria-label="Footer">
+      <a href="#configurator">Configurator</a>
+      <a href="#devices">Supported pads</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://github.com/ffrafat/macropad-configurator">GitHub</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+
+// ================= Device data =================
+const VENDOR_IDS = [0x1189, 0x514C];
+const KNOWN_PIDS = [0x8830, 0x8831, 0x8832, 0x8833, 0x8840, 0x8842, 0x8850, 0x8851, 0x8890];
+const familyFor = pid => pid === 0x8890 ? "8890" : "884x";
+
+const MOD_NAMES = ["Ctrl", "Shift", "Alt", "Win"];
+const MEDIA = [
+  ["Volume up", 0xE9], ["Volume down", 0xEA], ["Mute", 0xE2], ["Play / pause", 0xCD],
+  ["Next track", 0xB5], ["Previous track", 0xB6], ["Stop", 0xB7],
+  ["Brightness up", 0x6F], ["Brightness down", 0x70],
+  ["Calculator", 0x192], ["Lock screen", 0x19E], ["Favorites", 0x182],
+  ["Browser home", 0x223], ["Browser back", 0x224], ["Browser forward", 0x225],
+];
+const KEYS = (() => {
+  const k = [];
+  for (let i = 0; i < 26; i++) k.push([String.fromCharCode(65 + i), 0x04 + i, "Key" + String.fromCharCode(65 + i)]);
+  for (let i = 1; i <= 9; i++) k.push([String(i), 0x1D + i, "Digit" + i]);
+  k.push(["0", 0x27, "Digit0"],
+    ["Enter", 0x28, "Enter"], ["Esc", 0x29, "Escape"], ["Backspace", 0x2A, "Backspace"], ["Tab", 0x2B, "Tab"],
+    ["Space", 0x2C, "Space"], ["-", 0x2D, "Minus"], ["=", 0x2E, "Equal"], ["[", 0x2F, "BracketLeft"],
+    ["]", 0x30, "BracketRight"], ["\\", 0x31, "Backslash"], [";", 0x33, "Semicolon"], ["'", 0x34, "Quote"],
+    ["`", 0x35, "Backquote"], [",", 0x36, "Comma"], [".", 0x37, "Period"], ["/", 0x38, "Slash"], ["Caps Lock", 0x39, "CapsLock"]);
+  for (let i = 1; i <= 12; i++) k.push(["F" + i, 0x39 + i, "F" + i]);
+  k.push(["Print Screen", 0x46, "PrintScreen"], ["Scroll Lock", 0x47, "ScrollLock"], ["Pause", 0x48, "Pause"],
+    ["Insert", 0x49, "Insert"], ["Home", 0x4A, "Home"], ["Page Up", 0x4B, "PageUp"], ["Delete", 0x4C, "Delete"],
+    ["End", 0x4D, "End"], ["Page Down", 0x4E, "PageDown"], ["→", 0x4F, "ArrowRight"], ["←", 0x50, "ArrowLeft"],
+    ["↓", 0x51, "ArrowDown"], ["↑", 0x52, "ArrowUp"], ["Num Lock", 0x53, "NumLock"],
+    ["Num /", 0x54, "NumpadDivide"], ["Num *", 0x55, "NumpadMultiply"], ["Num -", 0x56, "NumpadSubtract"],
+    ["Num +", 0x57, "NumpadAdd"], ["Num Enter", 0x58, "NumpadEnter"]);
+  for (let i = 1; i <= 9; i++) k.push(["Num " + i, 0x58 + i, "Numpad" + i]);
+  k.push(["Num 0", 0x62, "Numpad0"], ["Num .", 0x63, "NumpadDecimal"], ["Menu", 0x65, "ContextMenu"]);
+  for (let i = 13; i <= 24; i++) k.push(["F" + i, 0x68 + (i - 13), "F" + i]);
+  return k;
+})();
+const KEY_BY_CODE = new Map(KEYS.map(([n, c]) => [c, n]));
+const KEY_BY_DOMCODE = new Map(KEYS.map(([, c, d]) => [d, c]));
+const MOD_KEYS = new Set(["ControlLeft", "ControlRight", "ShiftLeft", "ShiftRight", "AltLeft", "AltRight", "MetaLeft", "MetaRight"]);
+const KNOB_ACTIONS = ["Turn left", "Press", "Turn right"];
+const LAYERS = 3;
+const LED_COLORS = ["White", "Red", "Orange", "Yellow", "Green", "Cyan", "Blue", "Purple"];
+const LED_HEX = ["#f2f5ff", "#ff3b3b", "#ff8a1f", "#ffd60a", "#30d158", "#2fd3f0", "#2f7bff", "#b05cff"];
+const LED_MODES_884X = [["off", "Off"], ["backlight", "Always on"], ["press", "Light on key press"], ["shock", "Ripple"], ["shock2", "Ripple 2"]];
+const LED_MODE_CODE = { off: 0, backlight: 1, shock: 2, shock2: 3, press: 4 };
+
+// ================= Layouts (key-pitch units) =================
+const PAD = 0.45;
+function grid(cols, rows, x0 = PAD, y0 = PAD) { const a = []; for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) a.push({ x: x0 + c, y: y0 + r }); return a; }
+function roundRect(w, h, [tl, tr, br, bl]) {
+  return `M${tl},0 H${w - tr} A${tr},${tr} 0 0 1 ${w},${tr} V${h - br} A${br},${br} 0 0 1 ${w - br},${h} H${bl} A${bl},${bl} 0 0 1 0,${h - bl} V${tl} A${tl},${tl} 0 0 1 ${tl},0 Z`;
+}
+function lShape(w, h, topH, legX, r = 0.4, f = 0.5) {
+  const rb = (w - legX) / 2;
+  return `M${r},0 H${w - r} A${r},${r} 0 0 1 ${w},${r} V${h - rb} A${rb},${rb} 0 0 1 ${w - rb},${h} A${rb},${rb} 0 0 1 ${legX},${h - rb}` +
+    ` V${topH + f} A${f},${f} 0 0 0 ${legX - f},${topH} H${r} A${r},${r} 0 0 1 0,${topH - r} V${r} A${r},${r} 0 0 1 ${r},0 Z`;
+}
+const layout = (id, name, w, h, keyPos, knobPos, path) => ({ id, name, w, h, keyPos, knobPos, path: path || roundRect(w, h, [0.4, 0.4, 0.4, 0.4]), buttons: keyPos.length, knobs: knobPos.length });
+const PRESETS = [
+  layout("3x1k1", "3 keys + 1 knob", 4.95, 1.8, grid(3, 1), [{ cx: 4.05, cy: 0.9, d: 0.92 }]),
+  layout("4x1", "4 keys", 4.8, 1.8, grid(4, 1), []),
+  layout("5x1", "5 keys", 5.8, 1.8, grid(5, 1), []),
+  layout("3x2", "6 keys", 3.8, 2.8, grid(3, 2), []),
+  layout("3x2k1", "6 keys + 1 knob", 4.95, 2.8, grid(3, 2), [{ cx: 4.05, cy: 1.4, d: 1 }]),
+  layout("3x2k2", "6 keys + 2 knobs", 3.8, 4.25, grid(3, 2, PAD, 1.9), [{ cx: 1.15, cy: 0.95, d: 0.95 }, { cx: 2.65, cy: 0.95, d: 0.95 }]),
+  layout("3x3k2", "9 keys + 2 knobs", 4.95, 3.8, grid(3, 3), [{ cx: 4.05, cy: 0.95, d: 0.92 }, { cx: 4.05, cy: 2.85, d: 0.92 }]),
+  layout("3x3k3", "9 keys + 3 knobs", 5.5, 5.8, grid(3, 3), [{ cx: 4.62, cy: 1.2, d: 0.9 }, { cx: 4.62, cy: 2.85, d: 0.9 }, { cx: 4.62, cy: 4.92, d: 1.32 }], lShape(5.5, 5.8, 3.8, 3.75)),
+  layout("4x3k2", "12 keys + 2 knobs", 6.0, 3.8, grid(4, 3), [{ cx: 5.1, cy: 1.0, d: 1.05 }, { cx: 5.1, cy: 2.8, d: 1.05 }]),
+  layout("4x3k3", "12 keys + 3 knobs", 5.95, 3.8, grid(4, 3), [0.9, 1.9, 2.9].map(cy => ({ cx: 5.1, cy, d: 0.84 }))),
+  layout("4x3k4", "12 keys + 4 knobs", 4.8, 5.05, grid(4, 3, PAD, 1.7), [0, 1, 2, 3].map(i => ({ cx: 0.9 + i, cy: 0.9, d: 0.8 }))),
+  layout("5x3k3", "15 keys + 3 knobs", 8.85, 3.8, grid(5, 3), [{ cx: 6.45, cy: 0.95, d: 1.0 }, { cx: 8.0, cy: 0.95, d: 1.0 }, { cx: 7.22, cy: 2.6, d: 1.5 }], roundRect(8.85, 3.8, [0.4, 0.7, 1.15, 0.4])),
+];
+
+// ================= Protocols =================
+// Both families talk to the pad's vendor HID interface with output report 3.
+// "884x" (1189:8840/8842/8850, 514C:8851, …) was reverse-engineered from MINI_KEYBOARD.exe;
+// "8890" follows the open-source ch57x-keyboard-tool.
+const PROTOCOLS = {
+  "884x": {
+    maxSeq: 18, delay: true, maxButtons: 15,
+    keyId(slot) {
+      if (slot.kind === "button") return slot.index + 1;
+      if (slot.index === 3) return 13 + slot.action; // 4th knob on 12-key pads reuses 13..15
+      return 16 + 3 * slot.index + slot.action;
+    },
+    bind(keyId, layer, act) {
+      const out = [], head = [0x03, 0xFE, keyId, layer + 1];
+      if (act.type === "keys") {
+        const seq = cleanSeq(act);
+        const count = (seq.length === 1 && !seq[0].code) ? 0 : seq.length;
+        const m = [...head, 0x01, 0, 0, 0, 0, 0, count];
+        for (const s of seq) m.push(s.mods & 0xFF, s.code & 0xFF);
+        out.push(m);
+        const d = Number(act.delay) || 0;
+        if (d > 0) out.push([...head, 0x05, d & 0xFF, (d >> 8) & 0xFF]);
+      } else if (act.type === "media") {
+        out.push([...head, 0x02, 0, 0, 0, 0, 0, 0, act.code & 0xFF, (act.code >> 8) & 0xFF]);
+      } else if (act.type === "mouse") {
+        const m = [...head, 0x03, 0, 0, 0, 0, 0], mod = Number(act.mod) || 0, b = act.buttons || 0;
+        if (act.kind === "click") m.push(0x01, mod, b);
+        else if (act.kind === "wheel") m.push(0x03, mod, 0, 0, 0, s8(act.delta));
+        else if (act.kind === "move") m.push(0x05, mod, 0, s8(act.dx), s8(act.dy));
+        else m.push(0x05, mod, b, s8(act.dx), s8(act.dy));
+        out.push(m);
+      }
+      out.push([0x03, 0xAA, 0xAA], [0x03, 0xFD, 0xFE, 0xFF], [0x03, 0xAA, 0xAA]);
+      return out;
+    },
+    led(layer, led) {
+      let code = 0;
+      if (led.mode === "backlight" && led.color === 0) code = 0x05;
+      else if (led.mode !== "off") code = (led.color << 4) | LED_MODE_CODE[led.mode];
+      return [[0x03, 0xFE, 0xB0, layer + 1, 0x08, 0, 0, 0, 0, 0, 0x01, 0, code], [0x03, 0xFD, 0xFE, 0xFF]];
+    },
+  },
+  "8890": {
+    maxSeq: 5, delay: false, maxButtons: 12,
+    keyId(slot) { return slot.kind === "button" ? slot.index + 1 : 13 + 3 * slot.index + slot.action; },
+    bind(keyId, layer, act) {
+      const out = [[0x03, 0xFE, layer + 1, 0x01, 0x01, 0, 0, 0, 0]], L = (layer + 1) << 4;
+      if (act.type === "keys") {
+        const seq = cleanSeq(act);
+        [{ mods: 0, code: 0 }, ...seq].forEach((s, i) => out.push([0x03, keyId, L | 1, seq.length, i, s.mods & 0xFF, s.code & 0xFF, 0, 0]));
+      } else if (act.type === "media") {
+        out.push([0x03, keyId, L | 2, act.code & 0xFF, (act.code >> 8) & 0xFF, 0, 0, 0, 0]);
+      } else if (act.type === "mouse") {
+        const mod = Number(act.mod) || 0, b = act.buttons || 0;
+        if (act.kind === "click") out.push([0x03, keyId, L | 3, b, 0, 0, 0, mod, 0]);
+        else if (act.kind === "wheel") out.push([0x03, keyId, L | 3, 0, 0, 0, s8(act.delta), mod, 0]);
+        else if (act.kind === "move") out.push([0x03, keyId, L | 3, 0, s8(act.dx), s8(act.dy), 0, mod, 0]);
+        else out.push([0x03, keyId, L | 3, b, s8(act.dx), s8(act.dy), 0, mod, 0]);
+      }
+      out.push([0x03, 0xAA, 0xAA, 0, 0, 0, 0, 0, 0]);
+      return out;
+    },
+    led(_layer, led) {
+      return [[0x03, 0xA1, 0x01, 0, 0, 0, 0, 0, 0], [0x03, 0xB0, 0x18, led.mode8890 || 0, 0, 0, 0, 0, 0], [0x03, 0xAA, 0xA1, 0, 0, 0, 0, 0, 0]];
+    },
+  },
+};
+const s8 = v => (Number(v) || 0) & 0xFF;
+function cleanSeq(act) { return act.seq.filter(s => s.code || s.mods); }
+
+function validate(act, proto) {
+  if (!act) throw new Error("Nothing set for this key");
+  if (act.type === "keys") {
+    const n = cleanSeq(act).length;
+    if (!n) throw new Error("Add at least one key");
+    if (n > proto.maxSeq) throw new Error(`This pad accepts at most ${proto.maxSeq} keys in a sequence`);
+    if ((Number(act.delay) || 0) > 6000) throw new Error("Delay can be at most 6000 ms");
+  }
+  if (act.type === "mouse" && ["click", "drag"].includes(act.kind) && !act.buttons) throw new Error("Pick a mouse button");
+}
+
+// ================= Pad drawing =================
+let uidSeq = 0;
+function bodySvg(p, uid) {
+  const id = n => `${n}-${uid}`;
+  const wells = p.keyPos.map(k => `<rect x="${k.x - 0.035}" y="${k.y - 0.035}" width="0.97" height="0.97" rx="0.11" fill="url(#${id("well")})"/>`).join("");
+  const glows = p.keyPos.map(k => `<rect class="glow" x="${k.x - 0.03}" y="${k.y - 0.03}" width="0.96" height="0.96" rx="0.12" style="fill:var(--led)" filter="url(#${id("blur")})"/>`).join("");
+  const knobWells = p.knobPos.map(k => `<circle cx="${k.cx}" cy="${k.cy}" r="${k.d / 2 + 0.07}" fill="url(#${id("kwell")})"/>`).join("");
+  return `<svg class="body" viewBox="0 0 ${p.w} ${p.h}" aria-hidden="true"><defs>
+    <linearGradient id="${id("bg")}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a4e56"/><stop offset=".45" stop-color="#2f3238"/><stop offset="1" stop-color="#1e2024"/></linearGradient>
+    <linearGradient id="${id("sheen")}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".09"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="${id("edge")}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".25" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></linearGradient>
+    <radialGradient id="${id("well")}" cx=".5" cy=".42" r=".7"><stop offset="0" stop-color="#191b1f"/><stop offset="1" stop-color="#08090a"/></radialGradient>
+    <radialGradient id="${id("kwell")}" cx=".5" cy=".4" r=".6"><stop offset=".7" stop-color="#0b0c0e"/><stop offset="1" stop-color="#25282d"/></radialGradient>
+    <filter id="${id("shadow")}" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy=".14" stdDeviation=".2" flood-color="#000" flood-opacity=".45"/></filter>
+    <filter id="${id("blur")}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation=".1"/></filter>
+    <filter id="${id("grain")}" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="28" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+    <clipPath id="${id("clip")}"><path d="${p.path}"/></clipPath></defs>
+    <path d="${p.path}" fill="url(#${id("bg")})" filter="url(#${id("shadow")})"/>
+    <g clip-path="url(#${id("clip")})"><rect width="${p.w}" height="${p.h}" filter="url(#${id("grain")})" opacity=".07" style="mix-blend-mode:overlay"/><rect width="${p.w}" height="${p.h}" fill="url(#${id("sheen")})"/></g>
+    <path d="${p.path}" fill="none" stroke="url(#${id("edge")})" stroke-width=".035"/>
+    ${wells}${knobWells}${glows}</svg>`;
+}
+
+// Draws a pad into `host`. opts: { u, layer, live, selected, onKey, onKnob, knobRot }
+function drawPad(host, p, opts) {
+  const { u, layer } = opts;
+  const dev = document.createElement("div");
+  dev.className = "device" + (opts.live ? " live" : "");
+  dev.style.setProperty("--u", u + "px");
+  dev.style.width = p.w * u + "px";
+  dev.style.height = p.h * u + "px";
+  dev.dataset.led = layer.led.mode;
+  dev.style.setProperty("--led", LED_HEX[layer.led.color] ?? LED_HEX[1]);
+  dev.innerHTML = bodySvg(p, ++uidSeq);
+  const sel = opts.selected;
+
+  p.keyPos.forEach((k, i) => {
+    const slot = { kind: "button", index: i };
+    const act = layer.keys[slotKey(slot)];
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "cap" + (sel && sel.kind === "button" && sel.index === i ? " sel" : "");
+    b.style.left = k.x * u + "px"; b.style.top = k.y * u + "px";
+    b.innerHTML = `<span class="top"><span class="lg"></span></span><span class="num"></span>`;
+    b.querySelector(".num").textContent = i + 1;
+    b.querySelector(".lg").textContent = describe(act).replace(/\+/g, "+​");
+    b.setAttribute("aria-label", `Key ${i + 1}: ${describe(act) || "not set"}`);
+    if (!opts.live) b.tabIndex = -1;
+    else b.onclick = () => opts.onKey(i);
+    dev.append(b);
+  });
+
+  p.knobPos.forEach((k, i) => {
+    const binds = [0, 1, 2].map(a => layer.keys[slotKey({ kind: "knob", index: i, action: a })]);
+    const isSel = sel && sel.kind === "knob" && sel.index === i;
+    const wrap = document.createElement("div");
+    wrap.className = "kw";
+    Object.assign(wrap.style, { left: (k.cx - k.d / 2) * u + "px", top: (k.cy - k.d / 2) * u + "px", width: k.d * u + "px", height: k.d * u + "px" });
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "knob" + (isSel ? " sel" : "") + (isSel && sel.action === 1 ? " pressed" : "");
+    b.innerHTML = `<span class="spin"><span class="ring"></span><span class="face"></span><span class="mark"></span></span><span class="shine"></span>`;
+    b.setAttribute("aria-label", `Knob ${i + 1}. ` + KNOB_ACTIONS.map((n, a) => `${n}: ${describe(binds[a]) || "not set"}`).join(". "));
+    const spin = b.querySelector(".spin");
+    const rot = isSel ? [-50, 0, 50][sel.action] : 0;
+    if (opts.knobRot) {
+      spin.style.setProperty("--rot", (opts.knobRot[i] || 0) + "deg");
+      requestAnimationFrame(() => requestAnimationFrame(() => spin.style.setProperty("--rot", rot + "deg")));
+      opts.knobRot[i] = rot;
+    }
+    if (!opts.live) b.tabIndex = -1;
+    else b.onclick = () => opts.onKnob(i);
+    wrap.append(b);
+    const r = k.d / 2 + 0.16;
+    [225, 180, 135].forEach((deg, a) => {
+      const dot = document.createElement("span");
+      dot.className = "dot" + (binds[a] ? " on" : "");
+      const rad = deg * Math.PI / 180;
+      dot.style.left = (k.d / 2 + Math.sin(rad) * r) * u + "px";
+      dot.style.top = (k.d / 2 - Math.cos(rad) * r) * u + "px";
+      wrap.append(dot);
+    });
+    dev.append(wrap);
+  });
+  host.replaceChildren(dev);
+  return dev;
+}
+
+function flashLed(dev, p, i, mode) {
+  if (!["press", "shock", "shock2"].includes(mode)) return;
+  const o = p.keyPos[i];
+  dev.querySelectorAll(".glow").forEach((g, j) => {
+    if (mode === "press" && j !== i) return;
+    const k = p.keyPos[j];
+    const delay = mode === "press" ? 0 : Math.hypot(k.x - o.x, k.y - o.y) * (mode === "shock" ? 90 : 60);
+    setTimeout(() => { g.classList.add("flash"); setTimeout(() => g.classList.remove("flash"), 140); }, delay);
+  });
+}
+
+// ================= State =================
+const STORE_KEY = "mpc-config-v1";
+const blankLayer = () => ({ keys: {}, led: { mode: "off", color: 1, mode8890: 0 } });
+const defaultState = () => ({ version: 1, preset: "3x1k1", layers: Array.from({ length: LAYERS }, blankLayer) });
+let state = loadState();
+let curLayer = 0, selected = null, tab = "key";
+let device = null, family = "884x", outReport = { id: 3, size: 64 };
+const knobRot = {};
+
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORE_KEY));
+    if (s && s.version === 1 && Array.isArray(s.layers) && s.layers.length === LAYERS) return s;
+  } catch {}
+  return defaultState();
+}
+function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch {} }
+const preset = () => PRESETS.find(p => p.id === state.preset) || PRESETS[0];
+const proto = () => PROTOCOLS[family];
+const slotKey = s => s.kind === "button" ? `b${s.index}` : `k${s.index}.${s.action}`;
+const slotName = s => s.kind === "button" ? `Key ${s.index + 1}` : `Knob ${s.index + 1}`;
+const layerData = () => state.layers[curLayer];
+const curAct = () => selected && layerData().keys[slotKey(selected)];
+
+function describe(act) {
+  if (!act) return "";
+  if (act.type === "keys") {
+    return cleanSeq(act).map(s => {
+      const mods = MOD_NAMES.filter((_, i) => s.mods & (1 << i));
+      return [...mods, s.code ? KEY_BY_CODE.get(s.code) || `#${s.code}` : null].filter(Boolean).join("+");
+    }).join(", ");
+  }
+  if (act.type === "media") return (MEDIA.find(m => m[1] === act.code) || ["Media key"])[0];
+  if (act.type === "mouse") {
+    const b = ["Left", "Right", "Middle"].filter((_, i) => act.buttons & (1 << i)).join("+");
+    return { click: `${b || "No"} click`, wheel: `Scroll ${act.delta > 0 ? "+" : ""}${act.delta}`, move: `Move ${act.dx},${act.dy}`, drag: `Drag ${act.dx},${act.dy}` }[act.kind];
+  }
+  return "";
+}
+
+// ================= Rendering =================
+function unitFor(p, avail, max = 96, min = 46) { return Math.max(min, Math.min(max, Math.floor(avail / p.w))); }
+
+let padDev = null;
+function renderPad() {
+  const p = preset();
+  padDev = drawPad($("pad"), p, {
+    u: unitFor(p, $("stage").clientWidth - 40), layer: layerData(), live: true, selected, knobRot,
+    onKey: i => { selected = { kind: "button", index: i }; tab = "key"; render(); flashLed(padDev, p, i, layerData().led.mode); },
+    onKnob: i => { selected = { kind: "knob", index: i, action: selected && selected.kind === "knob" && selected.index === i ? selected.action : 1 }; tab = "key"; render(); },
+  });
+  const info = $("knobInfo");
+  info.replaceChildren(...p.knobPos.map((_, i) => {
+    const line = document.createElement("div");
+    const b = document.createElement("b"); b.textContent = `Knob ${i + 1}  `;
+    line.append(b, ["↺", "●", "↻"].map((sym, a) => `${sym} ${describe(layerData().keys[slotKey({ kind: "knob", index: i, action: a })]) || "—"}`).join("   "));
+    return line;
+  }));
+}
+
+function renderToolbar() {
+  $("layers").replaceChildren(...Array.from({ length: LAYERS }, (_, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = i + 1; b.setAttribute("aria-pressed", i === curLayer);
+    b.setAttribute("aria-label", `Layer ${i + 1}`);
+    b.onclick = () => { curLayer = i; render(); };
+    return b;
+  }));
+  $("preset").value = state.preset;
+  const p = preset();
+  const anyOnLayer = Object.keys(layerData().keys).some(k => slotFits(slotFromKey(k), p));
+  const anyAtAll = state.layers.some(l => Object.keys(l.keys).some(k => slotFits(slotFromKey(k), p)));
+  $("writeLayer").disabled = !device || !anyOnLayer;
+  $("writeAll").disabled = !device || !anyAtAll;
+  $("writeLayer").textContent = `Write layer ${curLayer + 1}`;
+}
+
+function renderInspector() {
+  $("tabKey").setAttribute("aria-selected", tab === "key");
+  $("tabLight").setAttribute("aria-selected", tab === "light");
+  $("paneKey").style.display = tab === "key" ? "flex" : "none";
+  $("paneLight").style.display = tab === "light" ? "flex" : "none";
+  const P = proto();
+
+  // --- Key pane ---
+  $("keyEmpty").classList.toggle("hidden", !!selected);
+  $("keyPane").classList.toggle("hidden", !selected);
+  $("keyFoot").classList.toggle("hidden", !selected);
+  if (selected) {
+    const act = curAct();
+    const type = act ? act.type : "none";
+    $("edTitle").textContent = slotName(selected) + (selected.kind === "knob" ? " · " + KNOB_ACTIONS[selected.action] : "");
+    $("edLayer").textContent = `Layer ${curLayer + 1}`;
+    const seg = $("knobSeg");
+    seg.classList.toggle("hidden", selected.kind !== "knob");
+    if (selected.kind === "knob") {
+      seg.replaceChildren(...["↺ Left", "● Press", "↻ Right"].map((label, a) => {
+        const b = document.createElement("button");
+        b.type = "button"; b.textContent = label; b.setAttribute("aria-pressed", a === selected.action);
+        b.title = describe(layerData().keys[slotKey({ kind: "knob", index: selected.index, action: a })]) || "not set";
+        b.onclick = () => { selected = { ...selected, action: a }; render(); };
+        return b;
+      }));
+    }
+    $("actType").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.t === type));
+    $("edNone").classList.toggle("hidden", type !== "none");
+    $("edKeys").classList.toggle("hidden", type !== "keys");
+    $("edMedia").classList.toggle("hidden", type !== "media");
+    $("edMouse").classList.toggle("hidden", type !== "mouse");
+    if (type === "keys") renderSeq(act, P);
+    if (type === "media") $("media").value = act.code;
+    if (type === "mouse") {
+      $("mouseKind").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === act.kind));
+      $("mButtons").querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", !!(act.buttons & Number(c.dataset.b))));
+      $("mDelta").value = act.delta; $("mDx").value = act.dx; $("mDy").value = act.dy; $("mMod").value = act.mod;
+      $("mButtons").classList.toggle("hidden", !["click", "drag"].includes(act.kind));
+      $("mWheelRow").classList.toggle("hidden", act.kind !== "wheel");
+      $("mMoveRow").classList.toggle("hidden", !["move", "drag"].includes(act.kind));
+    }
+    const fits = selected.kind === "button" ? selected.index < P.maxButtons : true;
+    $("writeKey").disabled = !device || type === "none" || !fits;
+  }
+
+  // --- Lighting pane ---
+  const led = layerData().led;
+  if (family === "8890") {
+    $("ledScope").textContent = "Whole pad";
+    $("ledMode").innerHTML = `<option value="0">Off</option><option value="1">Mode 1</option><option value="2">Mode 2</option>`;
+    $("ledMode").value = state.layers[0].led.mode8890 || 0;
+    $("ledColorField").classList.add("hidden");
+    $("ledNote").textContent = "These pads have a few built-in lighting modes; try each one and keep the one you like.";
+  } else {
+    $("ledScope").textContent = `Layer ${curLayer + 1}`;
+    $("ledMode").innerHTML = LED_MODES_884X.map(([v, n]) => `<option value="${v}">${n}</option>`).join("");
+    $("ledMode").value = led.mode;
+    $("ledColorField").classList.toggle("hidden", led.mode === "off");
+    const colors = led.mode === "backlight" ? LED_COLORS.map((c, i) => [i, c]) : LED_COLORS.slice(1).map((c, i) => [i + 1, c]);
+    if (led.mode !== "backlight" && led.color === 0) led.color = 1;
+    $("ledColor").innerHTML = colors.map(([v, n]) => `<option value="${v}">${n}</option>`).join("");
+    $("ledColor").value = led.color;
+    $("ledNote").textContent = "Pads without LEDs ignore this. The drawing previews the effect; click a key to see press effects.";
+  }
+  $("writeLed").disabled = !device;
+}
+
+function renderSeq(act, P) {
+  $("seq").replaceChildren(...act.seq.map((step, idx) => {
+    const box = document.createElement("div"); box.className = "step";
+    const chips = document.createElement("div"); chips.className = "chips";
+    MOD_NAMES.forEach((n, i) => {
+      const c = document.createElement("button");
+      c.type = "button"; c.className = "chip"; c.textContent = n === "Win" ? "Win / ⌘" : n;
+      c.setAttribute("aria-pressed", !!(step.mods & (1 << i)));
+      c.onclick = () => { step.mods ^= 1 << i; commit(); };
+      chips.append(c);
+    });
+    const row = document.createElement("div"); row.className = "step-row";
+    const n = document.createElement("span"); n.className = "n"; n.textContent = String(idx + 1).padStart(2, "0");
+    const sel = document.createElement("select");
+    sel.setAttribute("aria-label", `Key ${idx + 1}`);
+    sel.innerHTML = `<option value="0">Modifier only</option>` + KEYS.map(([nm, c]) => `<option value="${c}">${nm}</option>`).join("");
+    sel.value = step.code;
+    sel.onchange = () => { step.code = Number(sel.value); commit(); };
+    const rec = document.createElement("button");
+    rec.type = "button"; rec.className = "chip"; rec.textContent = "Record";
+    rec.onclick = () => record(rec, step);
+    const del = document.createElement("button");
+    del.type = "button"; del.className = "chip"; del.textContent = "✕"; del.setAttribute("aria-label", "Remove key");
+    del.disabled = act.seq.length === 1;
+    del.onclick = () => { act.seq.splice(idx, 1); commit(); };
+    row.append(n, sel, rec, del);
+    box.append(chips, row);
+    return box;
+  }));
+  $("addStep").disabled = act.seq.length >= P.maxSeq;
+  $("seqNote").textContent = `Typed in order, up to ${P.maxSeq} keys.`;
+  $("delayField").classList.toggle("hidden", !P.delay);
+  $("delay").value = act.delay || 0;
+}
+
+function record(btn, step) {
+  btn.textContent = "Press keys…"; btn.classList.add("rec");
+  const onKey = e => {
+    e.preventDefault(); e.stopPropagation();
+    if (MOD_KEYS.has(e.code)) return;
+    window.removeEventListener("keydown", onKey, true);
+    const code = KEY_BY_DOMCODE.get(e.code);
+    if (!code) { log(`Can't use the "${e.code}" key`, "err"); render(); return; }
+    step.mods = (e.ctrlKey ? 1 : 0) | (e.shiftKey ? 2 : 0) | (e.altKey ? 4 : 0) | (e.metaKey ? 8 : 0);
+    step.code = code;
+    commit();
+  };
+  window.addEventListener("keydown", onKey, true);
+}
+
+function render() { renderToolbar(); renderPad(); renderInspector(); }
+function commit() { save(); render(); }
+
+function setConn(on, title, sub) {
+  $("conn").classList.toggle("on", on);
+  $("connTitle").textContent = title;
+  $("connSub").textContent = sub;
+  $("connectBtn").querySelector("span").textContent = on ? "Reconnect" : "Connect";
+}
+function log(text, cls) {
+  const line = document.createElement("div");
+  if (cls) line.className = cls;
+  line.textContent = text;
+  $("log").append(line);
+  $("log").scrollTop = $("log").scrollHeight;
+  if (cls === "err") $("logBox").open = true;
+}
+
+// ================= WebHID =================
+const hex4 = n => n.toString(16).toUpperCase().padStart(4, "0");
+const hexBytes = a => Array.from(a, x => x.toString(16).padStart(2, "0")).join(" ");
+
+function findOutReport(d) {
+  for (const c of d.collections) for (const r of c.outputReports || []) {
+    const bits = (r.items || []).reduce((n, it) => n + it.reportSize * it.reportCount, 0);
+    if (r.reportId === 3) return { id: 3, size: bits / 8 || 64 };
+  }
+  for (const c of d.collections) for (const r of c.outputReports || []) {
+    if (r.reportId === 0) return { id: 0, size: (r.items || []).reduce((n, it) => n + it.reportSize * it.reportCount, 0) / 8 || 64 };
+  }
+  return { id: 3, size: 64 };
+}
+function configScore(d) {
+  if (!VENDOR_IDS.includes(d.vendorId)) return -1;
+  let s = 0;
+  for (const c of d.collections) {
+    if (c.usagePage >= 0xFF00) s += 2;
+    if ((c.outputReports || []).some(r => r.reportId === 3)) s += 1;
+  }
+  return s;
+}
+
+async function useDevice(d) {
+  if (!d.opened) await d.open();
+  device = d;
+  family = familyFor(d.productId);
+  outReport = findOutReport(d);
+  d.oninputreport = e => log(`← report ${e.reportId}: ${hexBytes(new Uint8Array(e.data.buffer).slice(0, 16))}`);
+  const known = KNOWN_PIDS.includes(d.productId);
+  setConn(true, d.productName?.trim() || "Macro keyboard", `${hex4(d.vendorId)}:${hex4(d.productId)} · ${family} protocol${known ? "" : " · untested"}`);
+  log(`Connected ${hex4(d.vendorId)}:${hex4(d.productId)} (${family}), report ${outReport.id}, ${outReport.size} bytes`, "ok");
+  if (family === "8890" && preset().buttons > 12) log("This pad family supports up to 12 keys; keys 13+ will be skipped.", "err");
+  render();
+}
+
+async function connect() {
+  try {
+    const picked = await navigator.hid.requestDevice({ filters: VENDOR_IDS.map(vendorId => ({ vendorId })) });
+    const d = picked.filter(x => configScore(x) > 0).sort((a, b) => configScore(b) - configScore(a))[0];
+    if (!d) { if (picked.length) log("That device has no settings interface the browser can use.", "err"); return; }
+    await useDevice(d);
+  } catch (e) { log("Couldn't connect: " + e.message, "err"); }
+}
+
+async function sendAll(messages, label) {
+  if (!device) throw new Error("Connect the pad first");
+  log(`→ ${label}`);
+  for (const m of messages) {
+    const data = new Uint8Array(outReport.size);
+    if (outReport.id === 0) data.set(m.slice(0, outReport.size)); else data.set(m.slice(1, outReport.size + 1));
+    await device.sendReport(outReport.id, data);
+    log("  " + hexBytes(m));
+    await new Promise(r => setTimeout(r, 15));
+  }
+  log(`✓ ${label}`, "ok");
+}
+
+function slotFromKey(k) {
+  if (k[0] === "b") return { kind: "button", index: Number(k.slice(1)) };
+  const [i, a] = k.slice(1).split(".").map(Number);
+  return { kind: "knob", index: i, action: a };
+}
+function slotFits(slot, p) { return slot.kind === "button" ? slot.index < p.buttons : slot.index < p.knobs; }
+
+async function writeSlot(slot, layer, act) {
+  const P = proto();
+  validate(act, P);
+  if ((slot.kind === "button" && slot.index >= P.maxButtons) || (slot.kind === "knob" && family === "8890" && slot.index >= 3)) {
+    log(`Skipped ${slotName(slot)}: not available on this pad`, "err"); return;
+  }
+  const label = `Layer ${layer + 1} · ${slotName(slot)}${slot.kind === "knob" ? " " + KNOB_ACTIONS[slot.action].toLowerCase() : ""} → ${describe(act)}`;
+  await sendAll(P.bind(P.keyId(slot), layer, act), label);
+}
+async function writeLayer(layer) {
+  const p = preset();
+  for (const [k, act] of Object.entries(state.layers[layer].keys)) {
+    const slot = slotFromKey(k);
+    if (slotFits(slot, p)) await writeSlot(slot, layer, act);
+  }
+}
+async function busy(fn) {
+  const btns = [...document.querySelectorAll(".app button")];
+  const was = btns.map(b => b.disabled);
+  btns.forEach(b => b.disabled = true);
+  try { await fn(); } catch (e) { log("Error: " + e.message, "err"); }
+  finally { btns.forEach((b, i) => b.disabled = was[i]); render(); }
+}
+
+// ================= Wiring =================
+$("preset").innerHTML = PRESETS.map(p => `<option value="${p.id}">${p.name}</option>`).join("");
+$("preset").onchange = () => { state.preset = $("preset").value; selected = null; save(); render(); };
+$("media").innerHTML = MEDIA.map(([n, c]) => `<option value="${c}">${n}</option>`).join("");
+$("tabKey").onclick = () => { tab = "key"; renderInspector(); };
+$("tabLight").onclick = () => { tab = "light"; renderInspector(); };
+
+$("actType").onclick = e => {
+  const t = e.target.closest("button")?.dataset.t; if (!t || !selected) return;
+  const keys = layerData().keys, k = slotKey(selected);
+  if ((keys[k]?.type || "none") === t) return;
+  if (t === "none") delete keys[k];
+  else if (t === "keys") keys[k] = { type: "keys", seq: [{ mods: 0, code: 0x04 }], delay: 0 };
+  else if (t === "media") keys[k] = { type: "media", code: MEDIA[0][1] };
+  else keys[k] = { type: "mouse", kind: "click", buttons: 1, delta: 1, dx: 0, dy: 0, mod: 0 };
+  commit();
+};
+$("addStep").onclick = () => { curAct().seq.push({ mods: 0, code: 0x04 }); commit(); };
+$("delay").onchange = () => { curAct().delay = Math.max(0, Math.min(6000, Number($("delay").value) || 0)); commit(); };
+$("media").onchange = () => { curAct().code = Number($("media").value); commit(); };
+$("mouseKind").onclick = e => { const k = e.target.closest("button")?.dataset.k; if (k) { curAct().kind = k; commit(); } };
+$("mButtons").onclick = e => { const b = e.target.closest(".chip")?.dataset.b; if (b) { curAct().buttons ^= Number(b); commit(); } };
+const clamp127 = v => Math.max(-127, Math.min(127, Math.round(Number(v) || 0)));
+for (const [id, f] of [["mDelta", "delta"], ["mDx", "dx"], ["mDy", "dy"]]) $(id).onchange = () => { curAct()[f] = clamp127($(id).value); commit(); };
+$("mMod").onchange = () => { curAct().mod = Number($("mMod").value); commit(); };
+
+$("ledMode").onchange = () => {
+  if (family === "8890") state.layers.forEach(l => l.led.mode8890 = Number($("ledMode").value));
+  else layerData().led.mode = $("ledMode").value;
+  commit(); flashLed(padDev, preset(), 0, layerData().led.mode);
+};
+$("ledColor").onchange = () => { layerData().led.color = Number($("ledColor").value); commit(); flashLed(padDev, preset(), 0, layerData().led.mode); };
+
+$("writeKey").onclick = () => busy(() => writeSlot(selected, curLayer, curAct()));
+$("writeLayer").onclick = () => busy(() => writeLayer(curLayer));
+$("writeAll").onclick = () => busy(async () => { for (let l = 0; l < LAYERS; l++) await writeLayer(l); });
+$("writeLed").onclick = () => busy(() => sendAll(proto().led(curLayer, family === "8890" ? state.layers[0].led : layerData().led), family === "8890" ? "Lighting" : `Layer ${curLayer + 1} lighting`));
+
+$("exportBtn").onclick = () => {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(state, null, 2)], { type: "application/json" }));
+  a.download = "macropad-setup.json"; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$("importBtn").onclick = () => $("importFile").click();
+$("importFile").onchange = async () => {
+  const f = $("importFile").files[0]; if (!f) return;
+  try {
+    const s = JSON.parse(await f.text());
+    if (s.version !== 1 || !Array.isArray(s.layers) || s.layers.length !== LAYERS) throw new Error("not a macropad setup file");
+    state = s; selected = null; save(); render(); log(`Loaded ${f.name}`, "ok");
+  } catch (e) { log("Couldn't load file: " + e.message, "err"); }
+  $("importFile").value = "";
+};
+
+$("themeBtn").onclick = () => {
+  const dark = matchMedia("(prefers-color-scheme: dark)").matches;
+  const cur = document.documentElement.dataset.theme || (dark ? "dark" : "light");
+  const next = cur === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem("mpc-theme", next); } catch {}
+};
+
+// Hero illustration (not interactive)
+const HERO_PRESET = PRESETS.find(p => p.id === "4x3k2");
+const k1 = (mods, code) => ({ type: "keys", seq: [{ mods, code }] });
+const HERO_LAYER = { led: { mode: "backlight", color: 6 }, keys: {
+  b0: k1(1, 0x06), b1: k1(1, 0x19), b2: k1(1, 0x1D), b3: k1(3, 0x1D),
+  b4: { type: "media", code: 0xCD }, b5: { type: "media", code: 0xB6 }, b6: { type: "media", code: 0xB5 }, b7: { type: "media", code: 0xE2 },
+  b8: k1(9, 0x21), b9: k1(5, 0x4C), b10: k1(0, 0x29), b11: k1(0, 0x3A),
+  "k0.0": { type: "media", code: 0xEA }, "k0.1": { type: "media", code: 0xE2 }, "k0.2": { type: "media", code: 0xE9 },
+  "k1.0": { type: "mouse", kind: "wheel", delta: -1 }, "k1.2": { type: "mouse", kind: "wheel", delta: 1 } } };
+function renderHero() {
+  const host = $("heroPad");
+  drawPad(host, HERO_PRESET, { u: unitFor(HERO_PRESET, host.clientWidth, 92, 30), layer: HERO_LAYER, live: false });
+}
+
+const widths = new Map();
+const ro = new ResizeObserver(entries => {
+  for (const e of entries) {
+    const w = Math.round(e.contentRect.width);
+    if (widths.get(e.target) === w) continue;
+    widths.set(e.target, w);
+    e.target.id === "stage" ? renderPad() : renderHero();
+  }
+});
+ro.observe($("stage"));
+ro.observe($("heroPad"));
+
+if (!("hid" in navigator)) {
+  $("noHid").classList.remove("hidden");
+  $("connectBtn").disabled = true;
+  setConn(false, "Not available", "This browser has no WebHID");
+} else {
+  $("connectBtn").onclick = () => busy(connect);
+  navigator.hid.addEventListener("disconnect", e => {
+    if (e.device === device) { device = null; setConn(false, "Disconnected", "Plug the pad back in, then connect"); log("Pad disconnected", "err"); render(); }
+  });
+  navigator.hid.getDevices().then(ds => {
+    const d = ds.filter(x => configScore(x) > 0).sort((a, b) => configScore(b) - configScore(a))[0];
+    if (d) useDevice(d).catch(e => log("Reconnect failed: " + e.message, "err"));
+  });
+}
+render();
+renderHero();
+</script>
+</body>
+</html>
