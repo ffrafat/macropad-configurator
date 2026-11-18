@@ -54,7 +54,7 @@
         { "@type": "Question", "name": "Do I need to install anything?",
           "acceptedAnswer": { "@type": "Answer", "text": "No. The page talks to the pad directly through WebHID. Nothing is downloaded, and your settings never leave your computer." } },
         { "@type": "Question", "name": "Why can't the page show what my keys are currently set to?",
-          "acceptedAnswer": { "@type": "Answer", "text": "These pads accept new settings but don't report their current ones. The page remembers what you set in this browser, and you can export your setup to a file and load it on another computer." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "These pads accept new settings but don't report their current ones. So the drawing always starts blank and only shows what you set during this visit. Nothing is stored in the browser; to keep a setup, export it to a file and import it next time." } },
         { "@type": "Question", "name": "Does it work with the Bluetooth version?",
           "acceptedAnswer": { "@type": "Answer", "text": "Yes, but connect the pad with its USB cable while you change settings. The pad stores them in its own memory, so they keep working over Bluetooth afterwards." } },
         { "@type": "Question", "name": "Why doesn't it work in Safari, Firefox or on my phone?",
@@ -377,7 +377,7 @@
           <span class="eyebrow">Configurator</span>
           <h2 id="cfgTitle">Set up your macro pad</h2>
         </div>
-        <p>Plug the pad in with its USB cable, click <b>Connect</b>, then pick a key on the drawing and choose what it does.</p>
+        <p>Plug the pad in with its USB cable, click <b>Connect</b>, then pick a key on the drawing and choose what it does. The pad can't report its current keys, so the drawing starts blank; use Export to keep a setup.</p>
       </div>
 
       <div class="app">
@@ -599,7 +599,7 @@ sudo udevadm control --reload-rules</pre>
         <details open><summary>Is there MINI_KEYBOARD software for Mac?</summary><p>The seller's MINI_KEYBOARD.exe only runs on Windows. This configurator does the same job in Chrome, Edge, Brave or Opera on macOS (Intel and Apple Silicon), as well as Windows, Linux and ChromeOS.</p></details>
         <details><summary>Which macro keyboards are supported?</summary><p>CH57x-based macro pads with USB vendor ID 1189 or 514C and product IDs 8830–8833, 8840, 8842, 8850, 8851 and 8890. That covers the common 3-key + 1-knob, 6-key, 9-key, 12-key and 15-key pads with up to 4 knobs.</p></details>
         <details><summary>Do I need to install anything?</summary><p>No. The page talks to the pad directly through WebHID. Nothing is downloaded, and your settings never leave your computer.</p></details>
-        <details><summary>Why can't the page show what my keys are currently set to?</summary><p>These pads accept new settings but don't report their current ones. The page remembers what you set in this browser, and you can export your setup to a file and load it on another computer.</p></details>
+        <details><summary>Why can't the page show what my keys are currently set to?</summary><p>These pads accept new settings but don't report their current ones. So the drawing always starts blank and only shows what you set during this visit. Nothing is stored in the browser; to keep a setup, export it to a file and import it next time.</p></details>
         <details><summary>Does it work with the Bluetooth version?</summary><p>Yes, but connect the pad with its USB cable while you change settings. The pad stores them in its own memory, so they keep working over Bluetooth afterwards.</p></details>
         <details><summary>Why doesn't it work in Safari, Firefox or on my phone?</summary><p>Those browsers don't support WebHID, the technology that lets a web page talk to USB devices. Use Chrome, Edge, Brave or Opera on a computer.</p></details>
         <details><summary>Is this the official software?</summary><p>No. It is an independent, free tool that speaks the same USB protocol as the Windows app. It is not affiliated with any macro keyboard maker or seller.</p></details>
@@ -884,14 +884,13 @@ let curLayer = 0, selected = null, tab = "key";
 let device = null, family = "884x", outReport = { id: 3, size: 64 };
 const knobRot = {};
 
+// The setup is deliberately not stored: every visit starts blank, because the pad can't report
+// its real settings and a remembered setup would look like it came from the pad. Use Export/Import.
 function loadState() {
-  try {
-    const s = JSON.parse(localStorage.getItem(STORE_KEY));
-    if (s && s.version === 1 && Array.isArray(s.layers) && s.layers.length === LAYERS) return s;
-  } catch {}
+  try { localStorage.removeItem(STORE_KEY); } catch {} // clear setups saved by earlier versions
   return defaultState();
 }
-function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch {} }
+function save() {}
 const preset = () => PRESETS.find(p => p.id === state.preset) || PRESETS[0];
 const proto = () => PROTOCOLS[family];
 const slotKey = s => s.kind === "button" ? `b${s.index}` : `k${s.index}.${s.action}`;
